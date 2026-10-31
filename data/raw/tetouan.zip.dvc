@@ -1,0 +1,12 @@
+md5: edaed91671b9f83becdaee476bbafe1c
+frozen: true
+deps:
+- checksum: '34971924116100025378983444859028510048'
+  hash: md5
+  path: 
+    https://archive.ics.uci.edu/static/public/849/power+consumption+of+tetouan+city.zip
+outs:
+- md5: a1b5532c5176dd488dc4c7ba3b9793fa
+  size: 1401688
+  hash: md5
+  path: tetouan.zip

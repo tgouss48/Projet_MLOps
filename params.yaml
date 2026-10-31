@@ -1,8 +1,7 @@
 data:
-  source_url: "https://archive.ics.uci.edu/static/public/849/power+consumption+of+tetouan+city.zip"
-  source_filename: "Tetuan City power consumption.csv"
-  sha256: "ca8b2f30cf07dd872cb7f2aa45dac110ee38dbe5fc5910a6ff4bcc530dae3a40"
-  raw_path: "data/raw/tetouan_power.csv"
+  raw_zip: "data/raw/tetouan.zip"
+  clean_csv: "data/interim/clean.csv"
+  processed_dir: "data/processed"
 
 # decoupage temporel (voir docs/01_cadrage.md)
 protocol:

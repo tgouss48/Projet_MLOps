@@ -1,0 +1,67 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python src/validate.py
+    deps:
+    - path: data/raw/tetouan.zip
+      hash: md5
+      md5: a1b5532c5176dd488dc4c7ba3b9793fa
+      size: 1401688
+    - path: src/schema.py
+      hash: md5
+      md5: e4051ab480943be02943a5426cf4d50c
+      size: 1664
+    - path: src/validate.py
+      hash: md5
+      md5: 5f21e0f811833948839247b441694b56
+      size: 1980
+    params:
+      params.yaml:
+        data.clean_csv: data/interim/clean.csv
+        data.raw_zip: data/raw/tetouan.zip
+    outs:
+    - path: data/interim/clean.csv
+      hash: md5
+      md5: 87f01605bade0c7d108ea009684ab52f
+      size: 4430421
+    - path: reports/data_validation.json
+      hash: md5
+      md5: 379569534c425bc17217b757ef1d9334
+      size: 201
+  features:
+    cmd: python src/features.py
+    deps:
+    - path: data/interim/clean.csv
+      hash: md5
+      md5: 87f01605bade0c7d108ea009684ab52f
+      size: 4430421
+    - path: src/features.py
+      hash: md5
+      md5: 519af7ab35713c45deee8d85347e9b6f
+      size: 3195
+    - path: src/schema.py
+      hash: md5
+      md5: e4051ab480943be02943a5426cf4d50c
+      size: 1664
+    params:
+      params.yaml:
+        data.processed_dir: data/processed
+        protocol:
+          train_start: '2017-01-01'
+          train_end: '2017-04-30'
+          test_start: '2017-05-01'
+          test_end: '2017-05-31'
+          production_start: '2017-06-01'
+        target:
+          horizon_steps: 6
+          peak_quantile: 0.9
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 0e80df85872adf1dd19797b99f755b10.dir
+      size: 9634203
+      nfiles: 3
+    - path: reports/data_stats.json
+      hash: md5
+      md5: a0058a392cfa0979ba7e9499c1781907
+      size: 435

@@ -1,0 +1,20 @@
+{
+  "source": "tests/data/capteur_en_panne.csv",
+  "md5": "e39a7fa02a794ca3ecb0b3ae77026bbe",
+  "n_rows": 988,
+  "start": "2017-01-01 00:00:00",
+  "end": "2017-01-07 22:30:00",
+  "valid": false,
+  "errors": [
+    {
+      "column": "None",
+      "check": "pas de temps different de 10 min",
+      "failure_case": "0.0"
+    },
+    {
+      "column": "temperature",
+      "check": "in_range(-5, 50)",
+      "failure_case": "-999.0"
+    }
+  ]
+}

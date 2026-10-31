@@ -1,0 +1,31 @@
+stages:
+  validate:
+    cmd: python src/validate.py
+    deps:
+      - data/raw/tetouan.zip
+      - src/validate.py
+      - src/schema.py
+    params:
+      - data.raw_zip
+      - data.clean_csv
+    outs:
+      - data/interim/clean.csv
+    metrics:
+      - reports/data_validation.json:
+          cache: false
+
+  features:
+    cmd: python src/features.py
+    deps:
+      - data/interim/clean.csv
+      - src/features.py
+      - src/schema.py
+    params:
+      - protocol
+      - target
+      - data.processed_dir
+    outs:
+      - data/processed
+    metrics:
+      - reports/data_stats.json:
+          cache: false

@@ -5,11 +5,7 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 
-# donnees et modeles
-data/raw/
-data/interim/
-data/processed/
-models/
+# les fichiers de donnees sont ignores par DVC (fichiers .gitignore dans data/)
 mlruns/
 mlartifacts/
 
