@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# donnees et modeles
+data/raw/
+data/interim/
+data/processed/
+models/
+mlruns/
+mlartifacts/
+
+# autres
+.env
+.ipynb_checkpoints/
+.DS_Store

@@ -1,0 +1,35 @@
+# Dictionnaire de données
+
+Source : Power Consumption of Tetouan City, UCI Machine Learning Repository (jeu n° 849)
+https://archive.ics.uci.edu/dataset/849/power+consumption+of+tetouan+city
+
+- licence : CC BY 4.0
+- période : du 01/01/2017 00:00 au 30/12/2017 23:50, une mesure toutes les 10 minutes
+- taille : 52 416 lignes, 9 colonnes, aucune valeur manquante
+- sha256 du CSV : `ca8b2f30cf07dd872cb7f2aa45dac110ee38dbe5fc5910a6ff4bcc530dae3a40`
+- pas de données personnelles (consommation agrégée par zone)
+
+## Colonnes
+
+| Colonne d'origine | Nom utilisé | Unité | Description |
+|---|---|---|---|
+| DateTime | datetime | - | date et heure de la mesure (format M/D/YYYY H:MM) |
+| Temperature | temperature | °C | température |
+| Humidity | humidity | % | humidité relative |
+| Wind Speed | wind_speed | m/s | vitesse du vent |
+| general diffuse flows | general_diffuse_flows | W/m² | rayonnement solaire global diffus |
+| diffuse flows | diffuse_flows | W/m² | rayonnement solaire diffus |
+| Zone 1 Power Consumption | zone1_kw | kW | consommation zone Quads |
+| Zone 2  Power Consumption | zone2_kw | kW | consommation zone Smir |
+| Zone 3  Power Consumption | zone3_kw | kW | consommation zone Boussafou |
+
+Remarque : les colonnes Zone 2 et Zone 3 ont un double espace dans leur nom d'origine.
+
+Les plages de valeurs acceptées pour chaque colonne seront définies dans le schéma de
+validation (étape suivante).
+
+## Variables calculées
+
+- `total_kw` = zone1_kw + zone2_kw + zone3_kw
+- `peak_threshold_kw` = P90 de total_kw sur l'entraînement (environ 92 059 kW)
+- `target_peak_h1` = 1 si total_kw une heure plus tard dépasse peak_threshold_kw, sinon 0

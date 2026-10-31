@@ -1,0 +1,17 @@
+data:
+  source_url: "https://archive.ics.uci.edu/static/public/849/power+consumption+of+tetouan+city.zip"
+  source_filename: "Tetuan City power consumption.csv"
+  sha256: "ca8b2f30cf07dd872cb7f2aa45dac110ee38dbe5fc5910a6ff4bcc530dae3a40"
+  raw_path: "data/raw/tetouan_power.csv"
+
+# decoupage temporel (voir docs/01_cadrage.md)
+protocol:
+  train_start: "2017-01-01"
+  train_end: "2017-04-30"
+  test_start: "2017-05-01"
+  test_end: "2017-05-31"
+  production_start: "2017-06-01"
+
+target:
+  horizon_steps: 6      # 6 x 10 min = 1h
+  peak_quantile: 0.90
