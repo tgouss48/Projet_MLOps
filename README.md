@@ -24,6 +24,7 @@ make data         # télécharge les données UCI avec DVC
 make pipeline     # dvc repro : validation, features, entraînement
 make test         # lance les tests
 make demo-rejet   # exemple de données invalides refusées par la validation
+make demo-gate-refus  # exemple de modèle refusé par la quality gate
 make mlflow-ui    # interface MLflow sur http://localhost:5000
 ```
 
@@ -42,6 +43,10 @@ Le pipeline est décrit dans `dvc.yaml` et les empreintes de chaque fichier sont
    seuil de décision et le meilleur modèle. Chaque modèle est ensuite évalué une seule fois sur
    le test. Tout est enregistré dans MLflow (paramètres, métriques, empreintes des données,
    modèle). Le modèle retenu est sauvegardé dans `models/` et ses métriques dans `reports/metrics.json`.
+5. `gate` : quality gate. Le modèle est rechargé et réévalué sur le test, puis il doit passer
+   tous les contrôles (techniques, performances, sous-groupe week-end). Sinon le pipeline
+   s'arrête avec une erreur. Décision et détail dans `reports/quality_gate.json`, et la décision
+   est aussi ajoutée comme tag sur le run MLflow.
 
 Les données ne sont pas dans git, seulement leurs empreintes.
 
@@ -57,6 +62,8 @@ src/schema.py      schéma de validation des données
 src/validate.py    étape validate
 src/features.py    étape features
 src/train.py       étape train (+ suivi MLflow)
+src/quality_gate.py   étape gate
+src/demo_mauvais_modele.py  modèle volontairement mauvais pour la démo de refus
 models/            modèle retenu et ses métadonnées (géré par DVC)
 tests/             tests pytest (+ tests/data/ : fichier invalide pour la démo)
 reports/           rapports générés (validation, statistiques)
@@ -69,7 +76,7 @@ data/              données (gérées par DVC, pas dans git)
 - [x] Cadrage et structure du projet
 - [x] Ingestion et versionnement des données (DVC), validation, features, découpage temporel
 - [x] Entraînement et suivi MLflow
-- [ ] Quality gate
+- [x] Quality gate
 - [ ] API FastAPI
 - [ ] Docker
 - [ ] CI GitHub Actions

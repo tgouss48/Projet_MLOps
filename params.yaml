@@ -30,3 +30,11 @@ train:
 mlflow:
   tracking_uri: "sqlite:///mlflow.db"
   experiment: "tetouan-pics"
+
+# criteres d'acceptation (fixes a l'etape 1, voir docs/01_cadrage.md)
+gate:
+  min_recall: 0.85
+  min_precision: 0.50
+  min_pr_auc: 0.80
+  min_recall_weekend: 0.75   # le modele ne doit pas s'effondrer sur un sous-groupe
+  max_latency_ms: 50

@@ -1,0 +1,58 @@
+{
+  "decision": "ACCEPTE",
+  "modele": "hgb",
+  "dossier": "models",
+  "mlflow_run_id": "b4fc813886b04660901d49ee51b1a28c",
+  "date": "2026-10-30T22:03:48+00:00",
+  "controles": [
+    {
+      "controle": "features attendues",
+      "valeur": true,
+      "seuil": true,
+      "ok": true
+    },
+    {
+      "controle": "probabilites valides",
+      "valeur": true,
+      "seuil": true,
+      "ok": true
+    },
+    {
+      "controle": "latence moyenne (ms)",
+      "valeur": 3.71,
+      "seuil": 50,
+      "ok": true
+    },
+    {
+      "controle": "rappel",
+      "valeur": 0.8673,
+      "seuil": 0.85,
+      "ok": true
+    },
+    {
+      "controle": "precision",
+      "valeur": 0.8689,
+      "seuil": 0.5,
+      "ok": true
+    },
+    {
+      "controle": "pr_auc",
+      "valeur": 0.9465,
+      "seuil": 0.8,
+      "ok": true
+    },
+    {
+      "controle": "cout < cout persistance",
+      "valeur": 425,
+      "seuil": 1116,
+      "ok": true
+    },
+    {
+      "controle": "rappel week-end",
+      "valeur": 0.8268,
+      "seuil": 0.75,
+      "ok": true
+    }
+  ],
+  "raisons_refus": []
+}

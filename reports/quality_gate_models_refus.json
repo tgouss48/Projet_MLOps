@@ -1,0 +1,61 @@
+{
+  "decision": "REFUSE",
+  "modele": "logreg_sans_conso",
+  "dossier": "models_refus",
+  "mlflow_run_id": null,
+  "date": "2026-10-30T22:04:08+00:00",
+  "controles": [
+    {
+      "controle": "features attendues",
+      "valeur": true,
+      "seuil": true,
+      "ok": true
+    },
+    {
+      "controle": "probabilites valides",
+      "valeur": true,
+      "seuil": true,
+      "ok": true
+    },
+    {
+      "controle": "latence moyenne (ms)",
+      "valeur": 0.96,
+      "seuil": 50,
+      "ok": true
+    },
+    {
+      "controle": "rappel",
+      "valeur": 0.5963,
+      "seuil": 0.85,
+      "ok": false
+    },
+    {
+      "controle": "precision",
+      "valeur": 0.9193,
+      "seuil": 0.5,
+      "ok": true
+    },
+    {
+      "controle": "pr_auc",
+      "valeur": 0.8951,
+      "seuil": 0.8,
+      "ok": true
+    },
+    {
+      "controle": "cout < cout persistance",
+      "valeur": 1108,
+      "seuil": 1116,
+      "ok": true
+    },
+    {
+      "controle": "rappel week-end",
+      "valeur": 0.2677,
+      "seuil": 0.75,
+      "ok": false
+    }
+  ],
+  "raisons_refus": [
+    "rappel",
+    "rappel week-end"
+  ]
+}

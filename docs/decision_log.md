@@ -66,3 +66,27 @@ déclenche une alerte dès que la probabilité de pic dépasse 6 %.
 `mlflow.db` (non versionné) contient les runs. Chaque `dvc repro` qui relance l'entraînement crée
 de nouveaux runs, ce qui garde l'historique des expériences. Le lien entre le modèle de `models/`
 et son run se fait par `mlflow_run_id` dans `models/metadata.json`.
+
+**D-013 : quality gate dans le pipeline**
+La gate est une étape DVC après le train. Elle ne lit pas `reports/metrics.json` mais recharge
+le modèle et refait les calculs sur le test, pour ne pas dépendre de ce que le script de train
+a écrit. Contrôles : features attendues, probabilités valides, latence, rappel, précision,
+PR-AUC, coût inférieur à la persistance, rappel sur les week-ends. Un seul contrôle KO suffit
+pour refuser le modèle et arrêter le pipeline.
+Voir `src/quality_gate.py`, `tests/test_quality_gate.py`.
+
+**D-014 : deux contrôles ajoutés après l'étape 1**
+En regardant les erreurs du modèle, on a vu que les week-ends sont moins bien prédits (rappel
+0,83 contre 0,88 en semaine). On a ajouté un rappel minimum de 0,75 sur les week-ends, pour
+refuser un modèle bon en moyenne mais mauvais sur ce sous-groupe. On a aussi ajouté une limite
+de latence (50 ms) pour l'API. Ces deux seuils ont été fixés après avoir vu les résultats du
+modèle, contrairement aux autres : on le signale.
+
+**D-015 : cas nominal et cas de refus**
+- nominal : gradient boosting, tous les contrôles OK, décision ACCEPTE
+  (`reports/quality_gate.json`)
+- refus : régression logistique entraînée sans l'historique de consommation. Bonne précision
+  (0,92) et PR-AUC correcte (0,90), elle bat même la persistance, mais rappel de 0,60 et
+  seulement 0,27 le week-end, donc décision REFUSE (`reports/quality_gate_models_refus.json`).
+  Ça montre qu'un seul indicateur ne suffit pas pour accepter un modèle.
+  Commande : `make demo-gate-refus`.

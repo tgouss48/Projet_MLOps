@@ -42,6 +42,10 @@ Modèle (sur le jeu de test) :
 La baseline de persistance est la règle « s'il y a un pic maintenant, il y en aura un dans une
 heure ». Si le modèle ne fait pas mieux que ça, il ne sert à rien et il est refusé.
 
+Ajoutés à l'étape 4 (voir D-014 dans le journal des décisions) :
+- rappel sur les week-ends >= 0,75
+- prédiction en moins de 50 ms en moyenne
+
 Service :
 - latence p95 < 200 ms
 - moins de 1 % d'erreurs 5xx

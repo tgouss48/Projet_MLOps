@@ -114,3 +114,32 @@ stages:
       hash: md5
       md5: c84059e1eb9171b48d87d9aaa957dddd
       size: 479
+  gate:
+    cmd: python src/quality_gate.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: d8d011a70e05b8487824093d5df2f3bb
+      size: 819081
+    - path: models
+      hash: md5
+      md5: fa5293b98211ce490bf7bc518ca73dc1.dir
+      size: 910903
+      nfiles: 2
+    - path: src/quality_gate.py
+      hash: md5
+      md5: d95684a2007343d103374113bc9fb0a3
+      size: 4236
+    params:
+      params.yaml:
+        gate:
+          min_recall: 0.85
+          min_precision: 0.5
+          min_pr_auc: 0.8
+          min_recall_weekend: 0.75
+          max_latency_ms: 50
+    outs:
+    - path: reports/quality_gate.json
+      hash: md5
+      md5: 66a3593561b4ecee8717a936d12e0c32
+      size: 1087

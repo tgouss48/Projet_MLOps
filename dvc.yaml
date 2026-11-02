@@ -46,3 +46,15 @@ stages:
     metrics:
       - reports/metrics.json:
           cache: false
+
+  gate:
+    cmd: python src/quality_gate.py
+    deps:
+      - models
+      - data/processed/test.csv
+      - src/quality_gate.py
+    params:
+      - gate
+    metrics:
+      - reports/quality_gate.json:
+          cache: false
