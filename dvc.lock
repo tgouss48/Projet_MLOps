@@ -65,3 +65,52 @@ stages:
       hash: md5
       md5: a0058a392cfa0979ba7e9499c1781907
       size: 435
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: d8d011a70e05b8487824093d5df2f3bb
+      size: 819081
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 108db17805947f1b9377a07ea6a0c384
+      size: 3147965
+    - path: reports/data_stats.json
+      hash: md5
+      md5: a0058a392cfa0979ba7e9499c1781907
+      size: 435
+    - path: src/features.py
+      hash: md5
+      md5: 519af7ab35713c45deee8d85347e9b6f
+      size: 3195
+    - path: src/train.py
+      hash: md5
+      md5: 03c746ba9bf9571f5830939dcfdd75ef
+      size: 6595
+    params:
+      params.yaml:
+        mlflow:
+          tracking_uri: sqlite:///mlflow.db
+          experiment: tetouan-pics
+        train:
+          val_days: 21
+          cost_fn: 5
+          cost_fp: 1
+          random_state: 42
+          logreg:
+            C: 1.0
+          hgb:
+            max_iter: 300
+            learning_rate: 0.05
+            max_depth: 6
+    outs:
+    - path: models
+      hash: md5
+      md5: fa5293b98211ce490bf7bc518ca73dc1.dir
+      size: 910903
+      nfiles: 2
+    - path: reports/metrics.json
+      hash: md5
+      md5: c84059e1eb9171b48d87d9aaa957dddd
+      size: 479

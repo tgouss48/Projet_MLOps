@@ -29,3 +29,20 @@ stages:
     metrics:
       - reports/data_stats.json:
           cache: false
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - reports/data_stats.json
+      - src/train.py
+      - src/features.py
+    params:
+      - train
+      - mlflow
+    outs:
+      - models
+    metrics:
+      - reports/metrics.json:
+          cache: false

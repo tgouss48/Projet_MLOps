@@ -21,9 +21,10 @@ Prérequis : Python 3.12, git et make (Docker sera nécessaire plus tard).
 ```bash
 make setup        # crée le venv et installe les dépendances
 make data         # télécharge les données UCI avec DVC
-make pipeline     # dvc repro : validation des données puis features et découpage
+make pipeline     # dvc repro : validation, features, entraînement
 make test         # lance les tests
 make demo-rejet   # exemple de données invalides refusées par la validation
+make mlflow-ui    # interface MLflow sur http://localhost:5000
 ```
 
 ## Pipeline de données
@@ -36,6 +37,11 @@ Le pipeline est décrit dans `dvc.yaml` et les empreintes de chaque fichier sont
 3. `features` : calcul des features (passé uniquement), du seuil de pic (sur le train) et de la
    cible, puis découpage temporel en `train.csv`, `test.csv`, `production.csv`.
    Statistiques dans `reports/data_stats.json`.
+4. `train` : entraînement de trois modèles (baseline de persistance, régression logistique,
+   gradient boosting). Les 3 dernières semaines du train servent de validation pour choisir le
+   seuil de décision et le meilleur modèle. Chaque modèle est ensuite évalué une seule fois sur
+   le test. Tout est enregistré dans MLflow (paramètres, métriques, empreintes des données,
+   modèle). Le modèle retenu est sauvegardé dans `models/` et ses métriques dans `reports/metrics.json`.
 
 Les données ne sont pas dans git, seulement leurs empreintes.
 
@@ -50,6 +56,8 @@ Makefile           commandes du projet
 src/schema.py      schéma de validation des données
 src/validate.py    étape validate
 src/features.py    étape features
+src/train.py       étape train (+ suivi MLflow)
+models/            modèle retenu et ses métadonnées (géré par DVC)
 tests/             tests pytest (+ tests/data/ : fichier invalide pour la démo)
 reports/           rapports générés (validation, statistiques)
 docs/              cadrage, dictionnaire, décisions
@@ -60,7 +68,7 @@ data/              données (gérées par DVC, pas dans git)
 
 - [x] Cadrage et structure du projet
 - [x] Ingestion et versionnement des données (DVC), validation, features, découpage temporel
-- [ ] Entraînement et suivi MLflow
+- [x] Entraînement et suivi MLflow
 - [ ] Quality gate
 - [ ] API FastAPI
 - [ ] Docker

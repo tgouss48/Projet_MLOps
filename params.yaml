@@ -14,3 +14,19 @@ protocol:
 target:
   horizon_steps: 6      # 6 x 10 min = 1h
   peak_quantile: 0.90
+
+train:
+  val_days: 21          # les 3 dernieres semaines du train servent a choisir le modele et le seuil
+  cost_fn: 5            # cout d'un pic rate
+  cost_fp: 1            # cout d'une fausse alerte
+  random_state: 42
+  logreg:
+    C: 1.0
+  hgb:
+    max_iter: 300
+    learning_rate: 0.05
+    max_depth: 6
+
+mlflow:
+  tracking_uri: "sqlite:///mlflow.db"
+  experiment: "tetouan-pics"

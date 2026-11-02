@@ -3,7 +3,7 @@ VENV   ?= .venv
 BIN     = $(VENV)/bin
 export PATH := $(abspath $(BIN)):$(PATH)
 
-.PHONY: setup data pipeline demo-rejet test clean
+.PHONY: setup data pipeline demo-rejet mlflow-ui test clean
 
 setup:
 	$(PYTHON) -m venv $(VENV)
@@ -15,6 +15,9 @@ data:
 
 pipeline:
 	dvc repro
+
+mlflow-ui:
+	mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000
 
 test:
 	pytest -q

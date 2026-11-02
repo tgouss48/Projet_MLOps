@@ -8,8 +8,10 @@ __pycache__/
 # les fichiers de donnees sont ignores par DVC (fichiers .gitignore dans data/)
 mlruns/
 mlartifacts/
+mlflow.db
 
 # autres
 .env
 .ipynb_checkpoints/
 .DS_Store
+/models

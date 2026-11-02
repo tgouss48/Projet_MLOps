@@ -42,3 +42,27 @@ Voir `src/features.py`, `tests/test_features.py`.
 Seuil de pic = 92 059 kW. Taux de pics : 10,1 % en train, 12,0 % en test, 17,2 % sur la
 production simulée (jusqu'à environ 40 % en juillet et août).
 Voir `reports/data_stats.json`.
+
+**D-009 : choix du modèle sur une validation, pas sur le test**
+Les 3 dernières semaines du train (10 au 30 avril) servent de validation. Le seuil de décision et
+le meilleur modèle sont choisis dessus en minimisant `5 x FN + FP`, puis le modèle est
+réentraîné sur tout le train. Le test de mai n'est utilisé qu'une fois, pour mesurer.
+Voir `src/train.py`, `params.yaml` (section train).
+
+**D-010 : modèle retenu = gradient boosting (HistGradientBoosting)**
+Coût sur la validation : persistance 714, régression logistique 178, gradient boosting 113.
+Sur le test le gradient boosting obtient rappel 0,867, précision 0,869, PR-AUC 0,947 et un coût
+de 425 contre 1116 pour la persistance.
+Remarque : sur le test la régression logistique a un coût un peu plus bas (390). On garde quand
+même le choix fait sur la validation, sinon on utiliserait le test pour choisir et ce ne serait
+plus une évaluation honnête.
+Voir `reports/metrics.json` et les runs MLflow (expérience `tetouan-pics`).
+
+**D-011 : seuil de décision bas (0,06)**
+Comme un pic raté coûte 5 fois plus qu'une fausse alerte, le seuil optimal est très bas : on
+déclenche une alerte dès que la probabilité de pic dépasse 6 %.
+
+**D-012 : MLflow en local avec SQLite**
+`mlflow.db` (non versionné) contient les runs. Chaque `dvc repro` qui relance l'entraînement crée
+de nouveaux runs, ce qui garde l'historique des expériences. Le lien entre le modèle de `models/`
+et son run se fait par `mlflow_run_id` dans `models/metadata.json`.
