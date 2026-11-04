@@ -90,3 +90,23 @@ modèle, contrairement aux autres : on le signale.
   seulement 0,27 le week-end, donc décision REFUSE (`reports/quality_gate_models_refus.json`).
   Ça montre qu'un seul indicateur ne suffit pas pour accepter un modèle.
   Commande : `make demo-gate-refus`.
+
+**D-016 : registre de modèles MLflow avec alias**
+Un modèle accepté par la gate est enregistré dans `tetouan-pics-model`. Ses réglages (seuil de
+décision, features, md5 des données, décision de la gate) sont stockés en tags de la version.
+L'API ne charge pas un fichier mais `models:/tetouan-pics-model@champion` : pour changer de
+modèle en production, ou revenir en arrière, il suffit de déplacer l'alias.
+Le script refuse d'enregistrer un modèle dont la gate n'a pas dit ACCEPTE.
+Voir `src/register.py`, `reports/registry.json`.
+
+**D-017 : contrat d'API**
+Le client envoie ce qu'il connaît au moment t (météo, consommation actuelle et passée). L'API
+calcule les autres features avec la même fonction que le pipeline (`add_derived`), pour éviter
+une différence entre l'entraînement et la production. Un test le vérifie
+(`test_meme_resultat_que_le_pipeline`). Les plages acceptées sont les mêmes que dans la
+validation des données : une valeur hors plage est refusée avec un code 422.
+Voir `src/app.py`, `docs/api.md`, `tests/test_api.py`.
+
+**D-018 : la réponse contient la version du modèle et un identifiant de prédiction**
+Pour la traçabilité et pour le feedback plus tard (relier une prédiction à ce qui s'est
+vraiment passé une heure après).

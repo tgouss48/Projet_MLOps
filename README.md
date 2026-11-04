@@ -26,6 +26,8 @@ make test         # lance les tests
 make demo-rejet   # exemple de données invalides refusées par la validation
 make demo-gate-refus  # exemple de modèle refusé par la quality gate
 make mlflow-ui    # interface MLflow sur http://localhost:5000
+make api          # lance l'API sur http://localhost:8000 (doc sur /docs)
+make demo-api     # 3 requêtes d'exemple (été, hiver, entrée invalide)
 ```
 
 ## Pipeline de données
@@ -47,6 +49,14 @@ Le pipeline est décrit dans `dvc.yaml` et les empreintes de chaque fichier sont
    tous les contrôles (techniques, performances, sous-groupe week-end). Sinon le pipeline
    s'arrête avec une erreur. Décision et détail dans `reports/quality_gate.json`, et la décision
    est aussi ajoutée comme tag sur le run MLflow.
+6. `register` : si la gate a accepté le modèle, il est enregistré dans le registre MLflow
+   (`tetouan-pics-model`) avec ses réglages en tags, et reçoit l'alias `champion`.
+   Résultat dans `reports/registry.json`.
+
+## API
+
+L'API FastAPI (`src/app.py`) sert le modèle `champion` du registre. Le contrat (entrées,
+contraintes, sortie) est décrit dans `docs/api.md`.
 
 Les données ne sont pas dans git, seulement leurs empreintes.
 
@@ -64,10 +74,13 @@ src/features.py    étape features
 src/train.py       étape train (+ suivi MLflow)
 src/quality_gate.py   étape gate
 src/demo_mauvais_modele.py  modèle volontairement mauvais pour la démo de refus
+src/register.py    étape register (registre MLflow)
+src/app.py         API FastAPI
+examples/          requêtes d'exemple pour l'API
 models/            modèle retenu et ses métadonnées (géré par DVC)
 tests/             tests pytest (+ tests/data/ : fichier invalide pour la démo)
 reports/           rapports générés (validation, statistiques)
-docs/              cadrage, dictionnaire, décisions
+docs/              cadrage, dictionnaire, décisions, contrat d'API
 data/              données (gérées par DVC, pas dans git)
 ```
 
@@ -77,7 +90,7 @@ data/              données (gérées par DVC, pas dans git)
 - [x] Ingestion et versionnement des données (DVC), validation, features, découpage temporel
 - [x] Entraînement et suivi MLflow
 - [x] Quality gate
-- [ ] API FastAPI
+- [x] API FastAPI et registre de modèles
 - [ ] Docker
 - [ ] CI GitHub Actions
 - [ ] Monitoring Prometheus / Grafana

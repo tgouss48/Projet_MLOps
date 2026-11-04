@@ -15,21 +15,28 @@ FEATURES = WEATHER_COLS + [
 ]
 
 
-def add_features(df):
-    # uniquement des infos du passe ou du present
-    df = df.sort_values("datetime").copy()
-    df["total_kw"] = df[ZONE_COLS].sum(axis=1)
+def add_derived(df):
+    # features calculees a partir de la date et des valeurs deja presentes
+    # (utilisee aussi par l'API pour avoir exactement le meme calcul qu'a l'entrainement)
+    df = df.copy()
     hour = df["datetime"].dt.hour + df["datetime"].dt.minute / 60
     df["hour_sin"] = np.sin(2 * np.pi * hour / 24)
     df["hour_cos"] = np.cos(2 * np.pi * hour / 24)
     df["dayofweek"] = df["datetime"].dt.dayofweek
     df["is_weekend"] = (df["dayofweek"] >= 5).astype(int)
+    df["diff_1h"] = df["total_kw"] - df["lag_1h"]
+    return df
+
+
+def add_features(df):
+    # uniquement des infos du passe ou du present
+    df = df.sort_values("datetime").copy()
+    df["total_kw"] = df[ZONE_COLS].sum(axis=1)
     df["lag_10min"] = df["total_kw"].shift(1)
     df["lag_1h"] = df["total_kw"].shift(6)
     df["lag_24h"] = df["total_kw"].shift(144)
     df["mean_1h"] = df["total_kw"].rolling(6).mean()
-    df["diff_1h"] = df["total_kw"] - df["lag_1h"]
-    return df
+    return add_derived(df)
 
 
 def add_target(df, threshold, horizon):

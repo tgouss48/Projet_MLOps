@@ -1,0 +1,3 @@
+{"datetime": "2017-07-15T20:00:00", "temperature": 31.5, "humidity": 45.0, "wind_speed": 0.8,
+ "general_diffuse_flows": 120.0, "diffuse_flows": 90.0, "total_kw": 95000.0,
+ "lag_10min": 94000.0, "lag_1h": 90000.0, "lag_24h": 93000.0, "mean_1h": 92500.0}

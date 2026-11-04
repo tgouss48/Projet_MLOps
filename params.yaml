@@ -30,6 +30,7 @@ train:
 mlflow:
   tracking_uri: "sqlite:///mlflow.db"
   experiment: "tetouan-pics"
+  model_name: "tetouan-pics-model"
 
 # criteres d'acceptation (fixes a l'etape 1, voir docs/01_cadrage.md)
 gate:

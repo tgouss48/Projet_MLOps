@@ -37,8 +37,8 @@ stages:
       size: 4430421
     - path: src/features.py
       hash: md5
-      md5: 519af7ab35713c45deee8d85347e9b6f
-      size: 3195
+      md5: a877f005d78c5b56ee1916c2eeeb90f9
+      size: 3429
     - path: src/schema.py
       hash: md5
       md5: e4051ab480943be02943a5426cf4d50c
@@ -82,8 +82,8 @@ stages:
       size: 435
     - path: src/features.py
       hash: md5
-      md5: 519af7ab35713c45deee8d85347e9b6f
-      size: 3195
+      md5: a877f005d78c5b56ee1916c2eeeb90f9
+      size: 3429
     - path: src/train.py
       hash: md5
       md5: 03c746ba9bf9571f5830939dcfdd75ef
@@ -93,6 +93,7 @@ stages:
         mlflow:
           tracking_uri: sqlite:///mlflow.db
           experiment: tetouan-pics
+          model_name: tetouan-pics-model
         train:
           val_days: 21
           cost_fn: 5
@@ -107,7 +108,7 @@ stages:
     outs:
     - path: models
       hash: md5
-      md5: fa5293b98211ce490bf7bc518ca73dc1.dir
+      md5: b405fbdd41bd48574cbd80072ee23b5d.dir
       size: 910903
       nfiles: 2
     - path: reports/metrics.json
@@ -123,7 +124,7 @@ stages:
       size: 819081
     - path: models
       hash: md5
-      md5: fa5293b98211ce490bf7bc518ca73dc1.dir
+      md5: b405fbdd41bd48574cbd80072ee23b5d.dir
       size: 910903
       nfiles: 2
     - path: src/quality_gate.py
@@ -141,5 +142,29 @@ stages:
     outs:
     - path: reports/quality_gate.json
       hash: md5
-      md5: 66a3593561b4ecee8717a936d12e0c32
+      md5: ef40a3efb5a210cac8e8eaafe62dea2f
       size: 1087
+  register:
+    cmd: python src/register.py
+    deps:
+    - path: models
+      hash: md5
+      md5: b405fbdd41bd48574cbd80072ee23b5d.dir
+      size: 910903
+      nfiles: 2
+    - path: reports/quality_gate.json
+      hash: md5
+      md5: ef40a3efb5a210cac8e8eaafe62dea2f
+      size: 1087
+    - path: src/register.py
+      hash: md5
+      md5: 8f7edc51dea97d4cb243fbd8bf556dc7
+      size: 1884
+    params:
+      params.yaml:
+        mlflow.model_name: tetouan-pics-model
+    outs:
+    - path: reports/registry.json
+      hash: md5
+      md5: 2dce1d0ca8a889db0ec7a8cc3513bb34
+      size: 173

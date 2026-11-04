@@ -58,3 +58,15 @@ stages:
     metrics:
       - reports/quality_gate.json:
           cache: false
+
+  register:
+    cmd: python src/register.py
+    deps:
+      - models
+      - reports/quality_gate.json
+      - src/register.py
+    params:
+      - mlflow.model_name
+    outs:
+      - reports/registry.json:
+          cache: false
