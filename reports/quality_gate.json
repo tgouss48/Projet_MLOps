@@ -2,8 +2,8 @@
   "decision": "ACCEPTE",
   "modele": "hgb",
   "dossier": "models",
-  "mlflow_run_id": "8be7f81344bb477a91ac6b147f23f022",
-  "date": "2026-10-30T22:10:05+00:00",
+  "mlflow_run_id": "17bf07158e384d64acf7c6dcc7529cf0",
+  "date": "2026-10-30T22:17:15+00:00",
   "controles": [
     {
       "controle": "features attendues",
@@ -19,7 +19,7 @@
     },
     {
       "controle": "latence moyenne (ms)",
-      "valeur": 3.28,
+      "valeur": 3.71,
       "seuil": 50,
       "ok": true
     },

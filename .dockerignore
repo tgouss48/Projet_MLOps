@@ -1,0 +1,14 @@
+.venv
+.git
+.dvc
+data
+models
+models_refus
+mlruns
+mlflow.db
+reports
+tests
+docs
+examples
+*.md
+**/__pycache__

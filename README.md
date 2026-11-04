@@ -16,17 +16,33 @@ Documents :
 
 ## Installation
 
-Prérequis : Python 3.12, git et make (Docker sera nécessaire plus tard).
+Prérequis : Python 3.12, git, make, Docker et docker compose.
+
+Tout lancer depuis zéro (dans un dépôt git) :
+
+```bash
+make all
+```
+
+Ce qui revient à :
 
 ```bash
 make setup        # crée le venv et installe les dépendances
+make mlflow       # lance le serveur MLflow (docker compose) sur http://localhost:5000
 make data         # télécharge les données UCI avec DVC
-make pipeline     # dvc repro : validation, features, entraînement
+make pipeline     # dvc repro : validation, features, entraînement, gate, registre
+make up           # construit l'image de l'API et lance tout avec docker compose
+```
+
+Autres commandes :
+
+```bash
+make down         # arrête les conteneurs
+make logs         # logs de l'API
 make test         # lance les tests
 make demo-rejet   # exemple de données invalides refusées par la validation
 make demo-gate-refus  # exemple de modèle refusé par la quality gate
-make mlflow-ui    # interface MLflow sur http://localhost:5000
-make api          # lance l'API sur http://localhost:8000 (doc sur /docs)
+make api          # lance l'API sans Docker sur http://localhost:8000 (doc sur /docs)
 make demo-api     # 3 requêtes d'exemple (été, hiver, entrée invalide)
 ```
 
@@ -58,6 +74,12 @@ Le pipeline est décrit dans `dvc.yaml` et les empreintes de chaque fichier sont
 L'API FastAPI (`src/app.py`) sert le modèle `champion` du registre. Le contrat (entrées,
 contraintes, sortie) est décrit dans `docs/api.md`.
 
+## Docker
+
+`docker-compose.yml` lance le serveur MLflow et l'API. L'image de l'API est construite avec le
+`Dockerfile` (python slim, utilisateur non root, healthcheck). Détails et stratégie de mise en
+production : `docs/deploiement.md`.
+
 Les données ne sont pas dans git, seulement leurs empreintes.
 
 ## Organisation du dépôt
@@ -66,7 +88,8 @@ Les données ne sont pas dans git, seulement leurs empreintes.
 params.yaml        paramètres du projet (chemins, découpage, cible)
 dvc.yaml           étapes du pipeline
 dvc.lock           empreintes des données et du code de chaque étape
-requirements.txt   dépendances avec versions fixées
+requirements.txt   dépendances du projet avec versions fixées
+requirements-docker.txt  dépendances minimales de l'image de l'API
 Makefile           commandes du projet
 src/schema.py      schéma de validation des données
 src/validate.py    étape validate
@@ -77,10 +100,12 @@ src/demo_mauvais_modele.py  modèle volontairement mauvais pour la démo de refu
 src/register.py    étape register (registre MLflow)
 src/app.py         API FastAPI
 examples/          requêtes d'exemple pour l'API
+Dockerfile         image de l'API
+docker-compose.yml serveur MLflow + API
 models/            modèle retenu et ses métadonnées (géré par DVC)
 tests/             tests pytest (+ tests/data/ : fichier invalide pour la démo)
 reports/           rapports générés (validation, statistiques)
-docs/              cadrage, dictionnaire, décisions, contrat d'API
+docs/              cadrage, dictionnaire, décisions, contrat d'API, déploiement
 data/              données (gérées par DVC, pas dans git)
 ```
 
@@ -91,7 +116,7 @@ data/              données (gérées par DVC, pas dans git)
 - [x] Entraînement et suivi MLflow
 - [x] Quality gate
 - [x] API FastAPI et registre de modèles
-- [ ] Docker
+- [x] Docker
 - [ ] CI GitHub Actions
 - [ ] Monitoring Prometheus / Grafana
 - [ ] Détection de dérive et alertes

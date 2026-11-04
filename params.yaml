@@ -28,7 +28,7 @@ train:
     max_depth: 6
 
 mlflow:
-  tracking_uri: "sqlite:///mlflow.db"
+  tracking_uri: "http://localhost:5000"   # serveur MLflow lance avec docker compose
   experiment: "tetouan-pics"
   model_name: "tetouan-pics-model"
 

@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 
 from features import add_derived
 
-TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db")
+TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
 MODEL_NAME = os.getenv("MODEL_NAME", "tetouan-pics-model")
 MODEL_ALIAS = os.getenv("MODEL_ALIAS", "champion")
 
@@ -72,7 +72,11 @@ state = {}
 @asynccontextmanager
 async def lifespan(app):
     # le modele est charge une seule fois au demarrage
-    state.update(load_model())
+    # si le registre n'est pas joignable l'API demarre quand meme mais /health renvoie 503
+    try:
+        state.update(load_model())
+    except Exception as e:
+        print("impossible de charger le modele :", e)
     yield
 
 
@@ -80,6 +84,8 @@ app = FastAPI(title="Alerte pics de consommation - Tetouan", version="1.0", life
 
 
 def predire(mesures):
+    if "model" not in state:
+        raise HTTPException(503, "modele non charge")
     df = pd.DataFrame([m.model_dump() for m in mesures])
     df["datetime"] = pd.to_datetime(df["datetime"])
     X = add_derived(df)[state["features"]].astype(float)
@@ -106,6 +112,8 @@ def health():
 
 @app.get("/model")
 def model_info():
+    if "model" not in state:
+        raise HTTPException(503, "modele non charge")
     return {"name": MODEL_NAME, "alias": MODEL_ALIAS, "version": state["version"], "algo": state["algo"],
             "mlflow_run_id": state["run_id"], "decision_threshold": state["threshold"],
             "features": state["features"]}

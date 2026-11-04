@@ -9,6 +9,7 @@ __pycache__/
 mlruns/
 mlartifacts/
 mlflow.db
+# les donnees du serveur MLflow sont dans le volume docker mlflow_data
 
 # autres
 .env

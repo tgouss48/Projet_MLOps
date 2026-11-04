@@ -110,3 +110,23 @@ Voir `src/app.py`, `docs/api.md`, `tests/test_api.py`.
 **D-018 : la réponse contient la version du modèle et un identifiant de prédiction**
 Pour la traçabilité et pour le feedback plus tard (relier une prédiction à ce qui s'est
 vraiment passé une heure après).
+
+**D-019 : serveur MLflow dans docker compose**
+Avec MLflow en local (SQLite), les modèles étaient enregistrés avec un chemin absolu de la
+machine (`/home/...`), illisible depuis un conteneur. On lance donc un serveur MLflow dans
+docker compose qui stocke la base et les modèles dans un volume et les sert en HTTP. Le
+pipeline et l'API passent tous les deux par ce serveur : il n'y a qu'un seul registre.
+Voir `docker-compose.yml`, `params.yaml` (mlflow.tracking_uri).
+
+**D-020 : le modèle n'est pas copié dans l'image**
+L'image contient le code, le registre contient le modèle. On peut changer de modèle ou faire
+un rollback sans reconstruire l'image. Contrepartie : l'API a besoin du registre au démarrage.
+Si elle ne peut pas charger le modèle, elle démarre mais répond 503 (testé dans
+`test_sans_modele_repond_503`).
+Voir `docs/deploiement.md`.
+
+**D-021 : image de l'API légère et non root**
+Dépendances séparées (`requirements-docker.txt`, avec mlflow-skinny), seulement 3 fichiers de
+code copiés, utilisateur `appuser`, healthcheck sur `/health`. Les versions communes avec
+`requirements.txt` doivent rester identiques dans les deux fichiers.
+Voir `Dockerfile`, `.dockerignore`.

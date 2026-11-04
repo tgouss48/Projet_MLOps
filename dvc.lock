@@ -91,7 +91,7 @@ stages:
     params:
       params.yaml:
         mlflow:
-          tracking_uri: sqlite:///mlflow.db
+          tracking_uri: http://localhost:5000
           experiment: tetouan-pics
           model_name: tetouan-pics-model
         train:
@@ -108,7 +108,7 @@ stages:
     outs:
     - path: models
       hash: md5
-      md5: b405fbdd41bd48574cbd80072ee23b5d.dir
+      md5: f563710222015413ca22a7546175c33d.dir
       size: 910903
       nfiles: 2
     - path: reports/metrics.json
@@ -124,7 +124,7 @@ stages:
       size: 819081
     - path: models
       hash: md5
-      md5: b405fbdd41bd48574cbd80072ee23b5d.dir
+      md5: f563710222015413ca22a7546175c33d.dir
       size: 910903
       nfiles: 2
     - path: src/quality_gate.py
@@ -142,19 +142,19 @@ stages:
     outs:
     - path: reports/quality_gate.json
       hash: md5
-      md5: ef40a3efb5a210cac8e8eaafe62dea2f
+      md5: 9e55e19285c7ecce881a11f0313a344a
       size: 1087
   register:
     cmd: python src/register.py
     deps:
     - path: models
       hash: md5
-      md5: b405fbdd41bd48574cbd80072ee23b5d.dir
+      md5: f563710222015413ca22a7546175c33d.dir
       size: 910903
       nfiles: 2
     - path: reports/quality_gate.json
       hash: md5
-      md5: ef40a3efb5a210cac8e8eaafe62dea2f
+      md5: 9e55e19285c7ecce881a11f0313a344a
       size: 1087
     - path: src/register.py
       hash: md5
@@ -166,5 +166,5 @@ stages:
     outs:
     - path: reports/registry.json
       hash: md5
-      md5: 2dce1d0ca8a889db0ec7a8cc3513bb34
-      size: 173
+      md5: ce4d5cea70f88831566d573313b19623
+      size: 175

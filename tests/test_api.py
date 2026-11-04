@@ -104,3 +104,18 @@ def test_champ_manquant_refuse(client):
 
 def test_lot_vide_refuse(client):
     assert client.post("/predict/batch", json={"mesures": []}).status_code == 422
+
+
+def test_sans_modele_repond_503(client):
+    # registre injoignable ou alias inexistant : l'API demarre mais refuse de predire
+    import app as api
+    sauvegarde = dict(api.state)
+    api.MODEL_ALIAS = "alias-inexistant"
+    api.state.clear()
+    try:
+        with TestClient(api.app) as cl:
+            assert cl.get("/health").status_code == 503
+            assert cl.post("/predict", json=payload(mesures(1).iloc[0])).status_code == 503
+    finally:
+        api.MODEL_ALIAS = "champion"
+        api.state.update(sauvegarde)
