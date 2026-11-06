@@ -3,7 +3,7 @@ VENV   ?= .venv
 BIN     = $(VENV)/bin
 export PATH := $(abspath $(BIN)):$(PATH)
 
-.PHONY: all setup mlflow data pipeline up down logs demo-rejet demo-gate-refus api demo-api test clean
+.PHONY: all setup mlflow data pipeline up down logs smoke demo-rejet demo-gate-refus api demo-api lint test clean
 
 # tout depuis zero : environnement, serveur MLflow, donnees, pipeline, API
 all: setup mlflow data pipeline up
@@ -29,6 +29,9 @@ demo-gate-refus:
 up:
 	docker compose up -d --build --wait
 
+smoke:
+	python scripts/smoke_test.py
+
 down:
 	docker compose down
 
@@ -42,6 +45,9 @@ demo-api:
 	curl -s -X POST localhost:8000/predict -H 'content-type: application/json' -d @examples/mesure_ete.json; echo
 	curl -s -X POST localhost:8000/predict -H 'content-type: application/json' -d @examples/mesure_hiver.json; echo
 	curl -s -X POST localhost:8000/predict -H 'content-type: application/json' -d @examples/mesure_invalide.json; echo
+
+lint:
+	ruff check src tests scripts
 
 test:
 	pytest -q

@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # 1) qualite du code : lint + tests unitaires (rapide, sans donnees ni docker)
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Installation
+        run: pip install -r requirements.txt
+      - name: Lint (ruff)
+        run: ruff check src tests scripts
+      - name: Tests unitaires
+        run: pytest -q
+
+  # 2) chaine ML complete + image Docker + test de l'API deployee
+  pipeline:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Installation
+        run: pip install -r requirements.txt
+
+      - name: Serveur MLflow
+        run: make mlflow
+
+      - name: Donnees (DVC)
+        run: make data
+
+      - name: Pipeline (validation, features, train, quality gate, registre)
+        run: make pipeline
+
+      - name: Les donnees invalides doivent etre refusees
+        run: |
+          if python src/validate.py tests/data/capteur_en_panne.csv; then
+            echo "ERREUR : les donnees invalides ont ete acceptees"; exit 1
+          fi
+
+      - name: Le mauvais modele doit etre refuse par la quality gate
+        run: |
+          python src/demo_mauvais_modele.py
+          if python src/quality_gate.py models_refus; then
+            echo "ERREUR : le mauvais modele a ete accepte"; exit 1
+          fi
+
+      - name: Construction de l'image et lancement de la stack
+        run: make up
+
+      - name: Test de fumee de l'API
+        run: python scripts/smoke_test.py
+
+      - name: Resume
+        if: always()
+        run: python scripts/resume_ci.py >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Logs en cas d'echec
+        if: failure()
+        run: docker compose logs
+
+      - name: Rapports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapports
+          path: reports/
+
+  # 3) publication de l'image (seulement sur la branche principale)
+  publish:
+    needs: pipeline
+    if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Connexion a GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Construction et publication
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}/tetouan-api"
+          docker build -t "$IMAGE:${GITHUB_SHA::7}" -t "$IMAGE:latest" .
+          docker push "$IMAGE:${GITHUB_SHA::7}"
+          docker push "$IMAGE:latest"

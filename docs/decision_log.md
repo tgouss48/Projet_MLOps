@@ -130,3 +130,24 @@ Dépendances séparées (`requirements-docker.txt`, avec mlflow-skinny), seuleme
 code copiés, utilisateur `appuser`, healthcheck sur `/health`. Les versions communes avec
 `requirements.txt` doivent rester identiques dans les deux fichiers.
 Voir `Dockerfile`, `.dockerignore`.
+
+**D-022 : la CI rejoue toute la chaîne, pas seulement les tests**
+En plus du lint et des tests unitaires, la CI télécharge les données, relance tout le pipeline
+DVC sur un serveur MLflow vide, construit l'image et teste l'API déployée. Si la quality gate
+refuse le modèle, la CI est rouge. On a vérifié en local sur un clone neuf du dépôt : mêmes
+métriques que sur notre machine (rappel 0,867, coût 425).
+Voir `.github/workflows/ci.yml`.
+
+**D-023 : la CI vérifie aussi les cas d'échec**
+Deux étapes vérifient que les données invalides (`tests/data/capteur_en_panne.csv`) et le
+mauvais modèle (`src/demo_mauvais_modele.py`) sont refusés. Si un jour ils étaient acceptés
+(par exemple un contrôle supprimé par erreur), la CI échouerait.
+
+**D-024 : publication de l'image seulement sur la branche principale**
+Les autres branches et les pull requests sont testées mais ne publient rien. Tag de l'image =
+hash court du commit, pour relier une image à un état exact du code.
+
+**D-025 : lint avec ruff**
+Règles de base (erreurs, imports, longueur de ligne 120). Quelques lignes trop longues ont été
+coupées, ce qui a relancé le pipeline : le modèle est passé en version 2 dans le registre, avec
+exactement les mêmes performances.

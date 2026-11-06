@@ -56,7 +56,10 @@ unhealthy et aucune prédiction n'est faite (pas de modèle au hasard).
 5. redémarrage de l'API (`docker compose restart api`), qui charge le nouveau champion
 6. vérification : `/health` et `/model` donnent la nouvelle version
 
-Le code de l'API, lui, passe par la CI (tests) avant d'être construit en image.
+Le code de l'API, lui, passe par la CI avant d'être construit en image : lint, tests, pipeline
+complet avec quality gate, test de fumée sur la stack docker. Si tout passe sur la branche
+principale, l'image est publiée sur GitHub Container Registry avec le hash court du commit
+comme tag (et `latest`). On sait donc toujours quel code tourne dans quelle image.
 
 ## Limites
 

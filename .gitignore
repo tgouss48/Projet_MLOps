@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .venv/
 .pytest_cache/
+.ruff_cache/
 *.egg-info/
 
 # les fichiers de donnees sont ignores par DVC (fichiers .gitignore dans data/)

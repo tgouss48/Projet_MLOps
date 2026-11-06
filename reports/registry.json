@@ -1,7 +1,7 @@
 {
   "model_name": "tetouan-pics-model",
-  "version": "1",
+  "version": "2",
   "alias": "champion",
-  "mlflow_run_id": "17bf07158e384d64acf7c6dcc7529cf0",
-  "date": "2026-10-30T22:17:17+00:00"
+  "mlflow_run_id": "ce7b4365f5cc432db543bf05c519b19f",
+  "date": "2026-10-30T22:34:01+00:00"
 }

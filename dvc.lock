@@ -37,8 +37,8 @@ stages:
       size: 4430421
     - path: src/features.py
       hash: md5
-      md5: a877f005d78c5b56ee1916c2eeeb90f9
-      size: 3429
+      md5: d6810bd3d37a227c270a77dfd1724140
+      size: 3455
     - path: src/schema.py
       hash: md5
       md5: e4051ab480943be02943a5426cf4d50c
@@ -82,12 +82,12 @@ stages:
       size: 435
     - path: src/features.py
       hash: md5
-      md5: a877f005d78c5b56ee1916c2eeeb90f9
-      size: 3429
+      md5: d6810bd3d37a227c270a77dfd1724140
+      size: 3455
     - path: src/train.py
       hash: md5
-      md5: 03c746ba9bf9571f5830939dcfdd75ef
-      size: 6595
+      md5: 351b634f0647e179ec26b90a969572de
+      size: 6653
     params:
       params.yaml:
         mlflow:
@@ -108,7 +108,7 @@ stages:
     outs:
     - path: models
       hash: md5
-      md5: f563710222015413ca22a7546175c33d.dir
+      md5: d776f21e5a237d56989143e6bbf86e52.dir
       size: 910903
       nfiles: 2
     - path: reports/metrics.json
@@ -124,13 +124,13 @@ stages:
       size: 819081
     - path: models
       hash: md5
-      md5: f563710222015413ca22a7546175c33d.dir
+      md5: d776f21e5a237d56989143e6bbf86e52.dir
       size: 910903
       nfiles: 2
     - path: src/quality_gate.py
       hash: md5
-      md5: d95684a2007343d103374113bc9fb0a3
-      size: 4236
+      md5: b6d627868c49d2f479ebe62fe2965e13
+      size: 4254
     params:
       params.yaml:
         gate:
@@ -142,19 +142,19 @@ stages:
     outs:
     - path: reports/quality_gate.json
       hash: md5
-      md5: 9e55e19285c7ecce881a11f0313a344a
+      md5: 874280e0851b6afb6742f702cb833f21
       size: 1087
   register:
     cmd: python src/register.py
     deps:
     - path: models
       hash: md5
-      md5: f563710222015413ca22a7546175c33d.dir
+      md5: d776f21e5a237d56989143e6bbf86e52.dir
       size: 910903
       nfiles: 2
     - path: reports/quality_gate.json
       hash: md5
-      md5: 9e55e19285c7ecce881a11f0313a344a
+      md5: 874280e0851b6afb6742f702cb833f21
       size: 1087
     - path: src/register.py
       hash: md5
@@ -166,5 +166,5 @@ stages:
     outs:
     - path: reports/registry.json
       hash: md5
-      md5: ce4d5cea70f88831566d573313b19623
+      md5: 95b631ff9947a9a22b94922ec8ead544
       size: 175

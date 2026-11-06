@@ -6,10 +6,10 @@ from pathlib import Path
 
 import joblib
 import mlflow
-from mlflow.models import infer_signature
 import numpy as np
 import pandas as pd
 import yaml
+from mlflow.models import infer_signature
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import average_precision_score, confusion_matrix, precision_score, recall_score
@@ -95,7 +95,10 @@ def main():
             # 1) choix du seuil de decision sur la validation
             model.fit(fit_part[FEATURES], fit_part[TARGET])
             val_proba = model.predict_proba(val_part[FEATURES])[:, 1]
-            threshold = 0.5 if name == "persistance" else best_threshold(val_part[TARGET], val_proba, p["cost_fn"], p["cost_fp"])
+            if name == "persistance":
+                threshold = 0.5
+            else:
+                threshold = best_threshold(val_part[TARGET], val_proba, p["cost_fn"], p["cost_fp"])
             val_metrics = evaluate(val_part[TARGET], val_proba, threshold, p["cost_fn"], p["cost_fp"])
 
             # 2) re-entrainement sur tout le train puis evaluation unique sur le test

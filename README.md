@@ -39,6 +39,8 @@ Autres commandes :
 ```bash
 make down         # arrête les conteneurs
 make logs         # logs de l'API
+make smoke        # test de fumée de l'API déployée
+make lint         # vérification du code (ruff)
 make test         # lance les tests
 make demo-rejet   # exemple de données invalides refusées par la validation
 make demo-gate-refus  # exemple de modèle refusé par la quality gate
@@ -80,6 +82,19 @@ contraintes, sortie) est décrit dans `docs/api.md`.
 `Dockerfile` (python slim, utilisateur non root, healthcheck). Détails et stratégie de mise en
 production : `docs/deploiement.md`.
 
+## Intégration continue
+
+`.github/workflows/ci.yml` tourne à chaque push et pull request :
+
+1. `tests` : lint (ruff) et tests unitaires
+2. `pipeline` : serveur MLflow, téléchargement des données, `dvc repro` complet (le job échoue
+   si la quality gate refuse le modèle), vérification que les données invalides et le mauvais
+   modèle sont bien refusés, construction de l'image, lancement de la stack et test de fumée
+   de l'API (`scripts/smoke_test.py`). Les rapports sont téléchargeables dans les artefacts du
+   run et un résumé (métriques, quality gate) est affiché sur la page du run.
+3. `publish` : seulement sur la branche principale, publication de l'image sur GitHub
+   Container Registry (`ghcr.io/<depot>/tetouan-api`) avec le hash du commit comme tag.
+
 Les données ne sont pas dans git, seulement leurs empreintes.
 
 ## Organisation du dépôt
@@ -100,6 +115,8 @@ src/demo_mauvais_modele.py  modèle volontairement mauvais pour la démo de refu
 src/register.py    étape register (registre MLflow)
 src/app.py         API FastAPI
 examples/          requêtes d'exemple pour l'API
+scripts/           test de fumée de l'API et résumé pour la CI
+.github/workflows/ CI GitHub Actions
 Dockerfile         image de l'API
 docker-compose.yml serveur MLflow + API
 models/            modèle retenu et ses métadonnées (géré par DVC)
@@ -117,7 +134,7 @@ data/              données (gérées par DVC, pas dans git)
 - [x] Quality gate
 - [x] API FastAPI et registre de modèles
 - [x] Docker
-- [ ] CI GitHub Actions
+- [x] CI GitHub Actions
 - [ ] Monitoring Prometheus / Grafana
 - [ ] Détection de dérive et alertes
 - [ ] Feedback, réentraînement, promotion, rollback

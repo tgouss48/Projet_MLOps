@@ -70,7 +70,8 @@ def main():
     df = add_features(df)
 
     # seuil de pic calcule seulement sur la periode d'entrainement
-    train_mask = (df["datetime"] >= p["train_start"]) & (df["datetime"] < pd.Timestamp(p["train_end"]) + pd.Timedelta(days=1))
+    fin_train = pd.Timestamp(p["train_end"]) + pd.Timedelta(days=1)
+    train_mask = (df["datetime"] >= p["train_start"]) & (df["datetime"] < fin_train)
     threshold = float(df.loc[train_mask, "total_kw"].quantile(t["peak_quantile"]))
 
     df = add_target(df, threshold, t["horizon_steps"])

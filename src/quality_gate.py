@@ -53,7 +53,8 @@ def run_checks(model, meta, test, peak_kw, g, cost_fn, cost_fp):
     # 3) sous-groupe : week-end
     we = test["is_weekend"] == 1
     m_we = evaluate(test.loc[we, TARGET], proba[we.to_numpy()], seuil, cost_fn, cost_fp)
-    checks.append(check("rappel week-end", m_we["recall"], g["min_recall_weekend"], m_we["recall"] >= g["min_recall_weekend"]))
+    ok_we = m_we["recall"] >= g["min_recall_weekend"]
+    checks.append(check("rappel week-end", m_we["recall"], g["min_recall_weekend"], ok_we))
     return checks
 
 
