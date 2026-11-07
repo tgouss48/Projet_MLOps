@@ -173,3 +173,21 @@ Les métriques de service ne suffisent pas : il faut surveiller la dérive des e
 comparer avec la réalité (feedback). On garde l'alerte TauxAlertesAnormal (elle détecterait un
 modèle qui alerte tout le temps) mais on sait qu'elle ne détecte pas ce cas.
 Voir `docs/monitoring.md`, `reports/monitoring_ete.json`.
+
+**D-029 : PSI codé nous-mêmes plutôt qu'Evidently**
+Le PSI fait quelques lignes (`psi` dans `src/drift.py`) et il est testé. Evidently aurait
+ajouté une grosse dépendance dont l'API change souvent entre versions, pour un calcul qu'on
+peut expliquer entièrement.
+
+**D-030 : la dérive est jugée sur la consommation, pas sur la météo**
+Avec les seuils PSI classiques sur toutes les variables, mai (où le modèle est bon) était
+déjà en dérive à cause de la météo. Déclencheurs retenus : consommation hors du domaine vu à
+l'entraînement et PSI de la consommation. La météo reste dans le rapport pour information.
+Voir `docs/derive.md`.
+
+**D-031 : réentraîner après 2 semaines de dérive de suite**
+Une seule semaine peut être une canicule passagère. Deux semaines de suite indiquent un vrai
+changement. Sur 2017 la décision tombe à la fin de la semaine du 10 juillet, au moment où le
+rappel réel est déjà passé de 0,9 à 0,28. Les 8 semaines DERIVE correspondent exactement à la
+période où le modèle rate 70 % des pics.
+Voir `reports/drift.md`.

@@ -168,3 +168,46 @@ stages:
       hash: md5
       md5: 95b631ff9947a9a22b94922ec8ead544
       size: 175
+  drift:
+    cmd: python src/drift.py
+    deps:
+    - path: data/processed/production.csv
+      hash: md5
+      md5: b0da0a8936c19e60c7267e4ef9e18b92
+      size: 5667157
+    - path: data/processed/test.csv
+      hash: md5
+      md5: d8d011a70e05b8487824093d5df2f3bb
+      size: 819081
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 108db17805947f1b9377a07ea6a0c384
+      size: 3147965
+    - path: models
+      hash: md5
+      md5: d776f21e5a237d56989143e6bbf86e52.dir
+      size: 910903
+      nfiles: 2
+    - path: src/drift.py
+      hash: md5
+      md5: 2247b524ad6c8453283af7df5122697e
+      size: 5913
+    params:
+      params.yaml:
+        drift:
+          frequence: W
+          hors_domaine_attention: 0.1
+          hors_domaine_derive: 0.2
+          psi_attention: 0.5
+          psi_derive: 1.0
+          temp_hors_domaine_attention: 0.3
+          semaines_avant_reentrainement: 2
+    outs:
+    - path: reports/drift.json
+      hash: md5
+      md5: 93306dce7d8ee562f330966d14b83213
+      size: 17328
+    - path: reports/drift.md
+      hash: md5
+      md5: d2de5cede0083f31e0124b1d83c13a76
+      size: 2917

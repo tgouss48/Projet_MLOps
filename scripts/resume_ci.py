@@ -12,6 +12,7 @@ stats = lire("data_stats.json")
 metrics = lire("metrics.json")
 gate = lire("quality_gate.json")
 reg = lire("registry.json")
+drift = lire("drift.json")
 
 print("## Resultat du pipeline\n")
 if stats:
@@ -32,3 +33,8 @@ if gate:
         print(f"| {c['controle']} | {c['valeur']} | {c['seuil']} | {'OK' if c['ok'] else 'KO'} |")
 if reg:
     print(f"\nRegistre : {reg['model_name']} version {reg['version']} -> alias {reg['alias']}")
+if drift:
+    r = drift["resume"]
+    print(f"\nDerive : {r['STABLE']} semaines stables, {r['ATTENTION']} attention, {r['DERIVE']} derive")
+    if drift["decision"]:
+        print(f"Decision : {drift['decision']['action']} (semaine du {drift['decision']['semaine']})")

@@ -1,0 +1,690 @@
+{
+  "reference": "train (janvier-avril 2017)",
+  "modele": "hgb",
+  "seuils": {
+    "frequence": "W",
+    "hors_domaine_attention": 0.1,
+    "hors_domaine_derive": 0.2,
+    "psi_attention": 0.5,
+    "psi_derive": 1.0,
+    "temp_hors_domaine_attention": 0.3,
+    "semaines_avant_reentrainement": 2
+  },
+  "resume": {
+    "STABLE": 14,
+    "ATTENTION": 13,
+    "DERIVE": 8
+  },
+  "decision": {
+    "semaine": "2017-07-10",
+    "donnees_disponibles_jusqu_au": "2017-07-16",
+    "action": "REENTRAINER"
+  },
+  "semaines": [
+    {
+      "semaine": "2017-05-01",
+      "n": 1008,
+      "hors_domaine_conso": 0.044,
+      "psi_conso": 0.092,
+      "hors_domaine_temp": 0.23,
+      "psi_meteo": {
+        "temperature": 4.38,
+        "humidity": 0.83,
+        "wind_speed": 0.61,
+        "general_diffuse_flows": 0.2,
+        "diffuse_flows": 0.14
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.101,
+      "taux_pics_reels": 0.103,
+      "rappel_reel": 0.904,
+      "cout_par_jour": 8.3
+    },
+    {
+      "semaine": "2017-05-08",
+      "n": 1008,
+      "hors_domaine_conso": 0.052,
+      "psi_conso": 0.259,
+      "hors_domaine_temp": 0.136,
+      "psi_meteo": {
+        "temperature": 4.45,
+        "humidity": 0.36,
+        "wind_speed": 0.86,
+        "general_diffuse_flows": 0.4,
+        "diffuse_flows": 0.16
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.103,
+      "taux_pics_reels": 0.108,
+      "rappel_reel": 0.908,
+      "cout_par_jour": 7.9
+    },
+    {
+      "semaine": "2017-05-15",
+      "n": 1008,
+      "hors_domaine_conso": 0.057,
+      "psi_conso": 0.298,
+      "hors_domaine_temp": 0.042,
+      "psi_meteo": {
+        "temperature": 5.45,
+        "humidity": 0.29,
+        "wind_speed": 2.38,
+        "general_diffuse_flows": 0.45,
+        "diffuse_flows": 0.14
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.114,
+      "taux_pics_reels": 0.111,
+      "rappel_reel": 0.911,
+      "cout_par_jour": 9.0
+    },
+    {
+      "semaine": "2017-05-22",
+      "n": 1008,
+      "hors_domaine_conso": 0.097,
+      "psi_conso": 0.618,
+      "hors_domaine_temp": 0.038,
+      "psi_meteo": {
+        "temperature": 4.34,
+        "humidity": 0.35,
+        "wind_speed": 2.75,
+        "general_diffuse_flows": 0.23,
+        "diffuse_flows": 0.07
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.145,
+      "taux_pics_reels": 0.136,
+      "rappel_reel": 0.832,
+      "cout_par_jour": 21.0
+    },
+    {
+      "semaine": "2017-05-29",
+      "n": 1002,
+      "hors_domaine_conso": 0.074,
+      "psi_conso": 0.465,
+      "hors_domaine_temp": 0.115,
+      "psi_meteo": {
+        "temperature": 7.74,
+        "humidity": 0.14,
+        "wind_speed": 3.26,
+        "general_diffuse_flows": 0.47,
+        "diffuse_flows": 0.17
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.154,
+      "taux_pics_reels": 0.177,
+      "rappel_reel": 0.712,
+      "cout_par_jour": 40.7
+    },
+    {
+      "semaine": "2017-06-05",
+      "n": 1008,
+      "hors_domaine_conso": 0.095,
+      "psi_conso": 0.361,
+      "hors_domaine_temp": 0.096,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.15,
+        "wind_speed": 2.06,
+        "general_diffuse_flows": 0.21,
+        "diffuse_flows": 0.23
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.155,
+      "taux_pics_reels": 0.187,
+      "rappel_reel": 0.686,
+      "cout_par_jour": 46.0
+    },
+    {
+      "semaine": "2017-06-12",
+      "n": 1008,
+      "hors_domaine_conso": 0.152,
+      "psi_conso": 0.49,
+      "hors_domaine_temp": 0.082,
+      "psi_meteo": {
+        "temperature": 5.72,
+        "humidity": 0.55,
+        "wind_speed": 2.51,
+        "general_diffuse_flows": 0.28,
+        "diffuse_flows": 0.21
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.158,
+      "taux_pics_reels": 0.218,
+      "rappel_reel": 0.618,
+      "cout_par_jour": 63.3
+    },
+    {
+      "semaine": "2017-06-19",
+      "n": 1008,
+      "hors_domaine_conso": 0.193,
+      "psi_conso": 0.746,
+      "hors_domaine_temp": 0.258,
+      "psi_meteo": {
+        "temperature": 7.46,
+        "humidity": 0.28,
+        "wind_speed": 3.13,
+        "general_diffuse_flows": 0.65,
+        "diffuse_flows": 0.32
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.145,
+      "taux_pics_reels": 0.298,
+      "rappel_reel": 0.457,
+      "cout_par_jour": 117.7
+    },
+    {
+      "semaine": "2017-06-26",
+      "n": 1008,
+      "hors_domaine_conso": 0.102,
+      "psi_conso": 0.346,
+      "hors_domaine_temp": 0.476,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.14,
+        "wind_speed": 6.41,
+        "general_diffuse_flows": 0.79,
+        "diffuse_flows": 0.25
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.107,
+      "taux_pics_reels": 0.143,
+      "rappel_reel": 0.618,
+      "cout_par_jour": 42.0
+    },
+    {
+      "semaine": "2017-07-03",
+      "n": 1008,
+      "hors_domaine_conso": 0.162,
+      "psi_conso": 1.474,
+      "hors_domaine_temp": 0.663,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.31,
+        "wind_speed": 4.99,
+        "general_diffuse_flows": 1.28,
+        "diffuse_flows": 0.28
+      },
+      "statut": "DERIVE",
+      "taux_alertes": 0.117,
+      "taux_pics_reels": 0.193,
+      "rappel_reel": 0.585,
+      "cout_par_jour": 58.4
+    },
+    {
+      "semaine": "2017-07-10",
+      "n": 1008,
+      "hors_domaine_conso": 0.24,
+      "psi_conso": 2.465,
+      "hors_domaine_temp": 0.741,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.17,
+        "wind_speed": 6.71,
+        "general_diffuse_flows": 0.95,
+        "diffuse_flows": 0.14
+      },
+      "statut": "DERIVE",
+      "taux_alertes": 0.121,
+      "taux_pics_reels": 0.432,
+      "rappel_reel": 0.28,
+      "cout_par_jour": 223.6
+    },
+    {
+      "semaine": "2017-07-17",
+      "n": 1008,
+      "hors_domaine_conso": 0.335,
+      "psi_conso": 2.702,
+      "hors_domaine_temp": 0.822,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 2.93,
+        "wind_speed": 2.92,
+        "general_diffuse_flows": 1.99,
+        "diffuse_flows": 0.41
+      },
+      "statut": "DERIVE",
+      "taux_alertes": 0.161,
+      "taux_pics_reels": 0.542,
+      "rappel_reel": 0.297,
+      "cout_par_jour": 274.3
+    },
+    {
+      "semaine": "2017-07-24",
+      "n": 1008,
+      "hors_domaine_conso": 0.488,
+      "psi_conso": 3.283,
+      "hors_domaine_temp": 0.76,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 3.32,
+        "wind_speed": 8.17,
+        "general_diffuse_flows": 2.14,
+        "diffuse_flows": 0.47
+      },
+      "statut": "DERIVE",
+      "taux_alertes": 0.183,
+      "taux_pics_reels": 0.593,
+      "rappel_reel": 0.308,
+      "cout_par_jour": 295.7
+    },
+    {
+      "semaine": "2017-07-31",
+      "n": 1008,
+      "hors_domaine_conso": 0.332,
+      "psi_conso": 2.703,
+      "hors_domaine_temp": 0.804,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.11,
+        "wind_speed": 7.83,
+        "general_diffuse_flows": 0.81,
+        "diffuse_flows": 0.16
+      },
+      "statut": "DERIVE",
+      "taux_alertes": 0.152,
+      "taux_pics_reels": 0.531,
+      "rappel_reel": 0.275,
+      "cout_par_jour": 278.0
+    },
+    {
+      "semaine": "2017-08-07",
+      "n": 1008,
+      "hors_domaine_conso": 0.344,
+      "psi_conso": 2.716,
+      "hors_domaine_temp": 0.887,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.89,
+        "wind_speed": 7.91,
+        "general_diffuse_flows": 1.91,
+        "diffuse_flows": 0.36
+      },
+      "statut": "DERIVE",
+      "taux_alertes": 0.15,
+      "taux_pics_reels": 0.504,
+      "rappel_reel": 0.297,
+      "cout_par_jour": 255.0
+    },
+    {
+      "semaine": "2017-08-14",
+      "n": 1008,
+      "hors_domaine_conso": 0.25,
+      "psi_conso": 2.251,
+      "hors_domaine_temp": 0.531,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.31,
+        "wind_speed": 4.02,
+        "general_diffuse_flows": 1.35,
+        "diffuse_flows": 0.51
+      },
+      "statut": "DERIVE",
+      "taux_alertes": 0.12,
+      "taux_pics_reels": 0.444,
+      "rappel_reel": 0.268,
+      "cout_par_jour": 234.4
+    },
+    {
+      "semaine": "2017-08-21",
+      "n": 1008,
+      "hors_domaine_conso": 0.174,
+      "psi_conso": 1.552,
+      "hors_domaine_temp": 0.463,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.11,
+        "wind_speed": 6.71,
+        "general_diffuse_flows": 1.32,
+        "diffuse_flows": 0.56
+      },
+      "statut": "DERIVE",
+      "taux_alertes": 0.121,
+      "taux_pics_reels": 0.236,
+      "rappel_reel": 0.508,
+      "cout_par_jour": 83.7
+    },
+    {
+      "semaine": "2017-08-28",
+      "n": 1008,
+      "hors_domaine_conso": 0.046,
+      "psi_conso": 0.262,
+      "hors_domaine_temp": 0.49,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.51,
+        "wind_speed": 7.21,
+        "general_diffuse_flows": 1.33,
+        "diffuse_flows": 0.33
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.104,
+      "taux_pics_reels": 0.082,
+      "rappel_reel": 0.735,
+      "cout_par_jour": 22.0
+    },
+    {
+      "semaine": "2017-09-04",
+      "n": 1008,
+      "hors_domaine_conso": 0.025,
+      "psi_conso": 0.187,
+      "hors_domaine_temp": 0.351,
+      "psi_meteo": {
+        "temperature": 8.28,
+        "humidity": 0.11,
+        "wind_speed": 8.17,
+        "general_diffuse_flows": 1.01,
+        "diffuse_flows": 0.53
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.108,
+      "taux_pics_reels": 0.088,
+      "rappel_reel": 0.91,
+      "cout_par_jour": 9.7
+    },
+    {
+      "semaine": "2017-09-11",
+      "n": 1008,
+      "hors_domaine_conso": 0.027,
+      "psi_conso": 0.346,
+      "hors_domaine_temp": 0.239,
+      "psi_meteo": {
+        "temperature": 5.63,
+        "humidity": 0.85,
+        "wind_speed": 6.88,
+        "general_diffuse_flows": 1.19,
+        "diffuse_flows": 0.52
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.114,
+      "taux_pics_reels": 0.089,
+      "rappel_reel": 0.989,
+      "cout_par_jour": 4.4
+    },
+    {
+      "semaine": "2017-09-18",
+      "n": 1008,
+      "hors_domaine_conso": 0.005,
+      "psi_conso": 0.154,
+      "hors_domaine_temp": 0.266,
+      "psi_meteo": {
+        "temperature": 7.86,
+        "humidity": 0.27,
+        "wind_speed": 6.93,
+        "general_diffuse_flows": 0.44,
+        "diffuse_flows": 0.33
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.11,
+      "taux_pics_reels": 0.078,
+      "rappel_reel": 0.987,
+      "cout_par_jour": 5.4
+    },
+    {
+      "semaine": "2017-09-25",
+      "n": 1008,
+      "hors_domaine_conso": 0.013,
+      "psi_conso": 0.347,
+      "hors_domaine_temp": 0.065,
+      "psi_meteo": {
+        "temperature": 6.39,
+        "humidity": 0.2,
+        "wind_speed": 6.99,
+        "general_diffuse_flows": 1.14,
+        "diffuse_flows": 0.92
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.111,
+      "taux_pics_reels": 0.08,
+      "rappel_reel": 0.975,
+      "cout_par_jour": 6.1
+    },
+    {
+      "semaine": "2017-10-02",
+      "n": 1008,
+      "hors_domaine_conso": 0.001,
+      "psi_conso": 0.262,
+      "hors_domaine_temp": 0.345,
+      "psi_meteo": {
+        "temperature": 4.81,
+        "humidity": 2.68,
+        "wind_speed": 5.82,
+        "general_diffuse_flows": 1.56,
+        "diffuse_flows": 0.92
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.124,
+      "taux_pics_reels": 0.09,
+      "rappel_reel": 0.978,
+      "cout_par_jour": 6.6
+    },
+    {
+      "semaine": "2017-10-09",
+      "n": 1008,
+      "hors_domaine_conso": 0.002,
+      "psi_conso": 0.35,
+      "hors_domaine_temp": 0.08,
+      "psi_meteo": {
+        "temperature": 5.68,
+        "humidity": 0.11,
+        "wind_speed": 1.17,
+        "general_diffuse_flows": 0.4,
+        "diffuse_flows": 0.35
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.13,
+      "taux_pics_reels": 0.086,
+      "rappel_reel": 0.977,
+      "cout_par_jour": 8.0
+    },
+    {
+      "semaine": "2017-10-16",
+      "n": 1008,
+      "hors_domaine_conso": 0.005,
+      "psi_conso": 0.344,
+      "hors_domaine_temp": 0.02,
+      "psi_meteo": {
+        "temperature": 6.17,
+        "humidity": 1.07,
+        "wind_speed": 1.44,
+        "general_diffuse_flows": 0.34,
+        "diffuse_flows": 0.52
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.128,
+      "taux_pics_reels": 0.066,
+      "rappel_reel": 0.97,
+      "cout_par_jour": 10.6
+    },
+    {
+      "semaine": "2017-10-23",
+      "n": 1008,
+      "hors_domaine_conso": 0.008,
+      "psi_conso": 0.233,
+      "hors_domaine_temp": 0.0,
+      "psi_meteo": {
+        "temperature": 3.37,
+        "humidity": 0.46,
+        "wind_speed": 2.48,
+        "general_diffuse_flows": 0.2,
+        "diffuse_flows": 0.2
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.126,
+      "taux_pics_reels": 0.062,
+      "rappel_reel": 0.952,
+      "cout_par_jour": 11.7
+    },
+    {
+      "semaine": "2017-10-30",
+      "n": 1008,
+      "hors_domaine_conso": 0.011,
+      "psi_conso": 0.289,
+      "hors_domaine_temp": 0.0,
+      "psi_meteo": {
+        "temperature": 3.85,
+        "humidity": 0.19,
+        "wind_speed": 0.25,
+        "general_diffuse_flows": 0.16,
+        "diffuse_flows": 0.29
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.12,
+      "taux_pics_reels": 0.024,
+      "rappel_reel": 1.0,
+      "cout_par_jour": 13.9
+    },
+    {
+      "semaine": "2017-11-06",
+      "n": 1008,
+      "hors_domaine_conso": 0.022,
+      "psi_conso": 0.3,
+      "hors_domaine_temp": 0.0,
+      "psi_meteo": {
+        "temperature": 4.29,
+        "humidity": 1.16,
+        "wind_speed": 3.82,
+        "general_diffuse_flows": 0.43,
+        "diffuse_flows": 0.24
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.119,
+      "taux_pics_reels": 0.022,
+      "rappel_reel": 0.864,
+      "cout_par_jour": 16.6
+    },
+    {
+      "semaine": "2017-11-13",
+      "n": 1008,
+      "hors_domaine_conso": 0.014,
+      "psi_conso": 0.223,
+      "hors_domaine_temp": 0.0,
+      "psi_meteo": {
+        "temperature": 0.89,
+        "humidity": 0.17,
+        "wind_speed": 0.47,
+        "general_diffuse_flows": 0.43,
+        "diffuse_flows": 0.54
+      },
+      "statut": "STABLE",
+      "taux_alertes": 0.115,
+      "taux_pics_reels": 0.023,
+      "rappel_reel": 0.739,
+      "cout_par_jour": 18.4
+    },
+    {
+      "semaine": "2017-11-20",
+      "n": 1008,
+      "hors_domaine_conso": 0.01,
+      "psi_conso": 0.834,
+      "hors_domaine_temp": 0.034,
+      "psi_meteo": {
+        "temperature": 0.15,
+        "humidity": 1.15,
+        "wind_speed": 2.2,
+        "general_diffuse_flows": 0.24,
+        "diffuse_flows": 1.5
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.115,
+      "taux_pics_reels": 0.002,
+      "rappel_reel": 1.0,
+      "cout_par_jour": 16.3
+    },
+    {
+      "semaine": "2017-11-27",
+      "n": 1008,
+      "hors_domaine_conso": 0.034,
+      "psi_conso": 0.51,
+      "hors_domaine_temp": 0.0,
+      "psi_meteo": {
+        "temperature": 0.29,
+        "humidity": 0.96,
+        "wind_speed": 0.2,
+        "general_diffuse_flows": 0.38,
+        "diffuse_flows": 0.68
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.12,
+      "taux_pics_reels": 0.012,
+      "rappel_reel": 0.917,
+      "cout_par_jour": 16.4
+    },
+    {
+      "semaine": "2017-12-04",
+      "n": 1008,
+      "hors_domaine_conso": 0.01,
+      "psi_conso": 1.231,
+      "hors_domaine_temp": 0.107,
+      "psi_meteo": {
+        "temperature": 1.23,
+        "humidity": 0.03,
+        "wind_speed": 0.76,
+        "general_diffuse_flows": 0.6,
+        "diffuse_flows": 0.41
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.127,
+      "taux_pics_reels": 0.0,
+      "rappel_reel": null,
+      "cout_par_jour": 18.3
+    },
+    {
+      "semaine": "2017-12-11",
+      "n": 1008,
+      "hors_domaine_conso": 0.011,
+      "psi_conso": 1.098,
+      "hors_domaine_temp": 0.035,
+      "psi_meteo": {
+        "temperature": 0.13,
+        "humidity": 0.13,
+        "wind_speed": 1.6,
+        "general_diffuse_flows": 0.43,
+        "diffuse_flows": 0.46
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.126,
+      "taux_pics_reels": 0.0,
+      "rappel_reel": null,
+      "cout_par_jour": 18.1
+    },
+    {
+      "semaine": "2017-12-18",
+      "n": 1008,
+      "hors_domaine_conso": 0.011,
+      "psi_conso": 1.257,
+      "hors_domaine_temp": 0.0,
+      "psi_meteo": {
+        "temperature": 0.43,
+        "humidity": 0.93,
+        "wind_speed": 1.01,
+        "general_diffuse_flows": 0.8,
+        "diffuse_flows": 0.86
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.121,
+      "taux_pics_reels": 0.0,
+      "rappel_reel": null,
+      "cout_par_jour": 17.4
+    },
+    {
+      "semaine": "2017-12-25",
+      "n": 858,
+      "hors_domaine_conso": 0.0,
+      "psi_conso": 0.929,
+      "hors_domaine_temp": 0.028,
+      "psi_meteo": {
+        "temperature": 0.93,
+        "humidity": 0.57,
+        "wind_speed": 2.14,
+        "general_diffuse_flows": 0.57,
+        "diffuse_flows": 0.85
+      },
+      "statut": "ATTENTION",
+      "taux_alertes": 0.122,
+      "taux_pics_reels": 0.0,
+      "rappel_reel": null,
+      "cout_par_jour": 17.6
+    }
+  ]
+}

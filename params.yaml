@@ -39,3 +39,13 @@ gate:
   min_pr_auc: 0.80
   min_recall_weekend: 0.75   # le modele ne doit pas s'effondrer sur un sous-groupe
   max_latency_ms: 50
+
+# detection de derive (analyse par semaine, reference = train)
+drift:
+  frequence: "W"                  # une analyse par semaine
+  hors_domaine_attention: 0.10    # part de consommations hors de [P1, P99] du train
+  hors_domaine_derive: 0.20
+  psi_attention: 0.5              # PSI de la consommation totale
+  psi_derive: 1.0
+  temp_hors_domaine_attention: 0.30
+  semaines_avant_reentrainement: 2   # semaines DERIVE consecutives avant de decider un reentrainement

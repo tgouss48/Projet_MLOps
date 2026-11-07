@@ -3,12 +3,16 @@ VENV   ?= .venv
 BIN     = $(VENV)/bin
 export PATH := $(abspath $(BIN)):$(PATH)
 
-.PHONY: all setup mlflow data pipeline up down logs smoke simu-stable simu-capteur simu-ete demo-rejet demo-gate-refus api demo-api lint test clean
+.PHONY: all setup mlflow data pipeline drift up down logs smoke simu-stable simu-capteur simu-ete demo-rejet demo-gate-refus api demo-api lint test clean
 
 # tout depuis zero : environnement, serveur MLflow, donnees, pipeline, API
 all: setup mlflow data pipeline up
 
-setup:
+setdrift:
+	dvc repro drift
+	cat reports/drift.md
+
+up:
 	$(PYTHON) -m venv $(VENV)
 	$(BIN)/pip install --upgrade pip
 	$(BIN)/pip install -r requirements.txt

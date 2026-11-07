@@ -43,6 +43,7 @@ make smoke        # test de fumée de l'API déployée
 make simu-stable  # trafic normal (mai) vers l'API
 make simu-capteur # trafic avec 30 % de capteurs en panne
 make simu-ete     # trafic de juillet (dérive)
+make drift        # analyse de dérive semaine par semaine
 make lint         # vérification du code (ruff)
 make test         # lance les tests
 make demo-rejet   # exemple de données invalides refusées par la validation
@@ -73,6 +74,9 @@ Le pipeline est décrit dans `dvc.yaml` et les empreintes de chaque fichier sont
 6. `register` : si la gate a accepté le modèle, il est enregistré dans le registre MLflow
    (`tetouan-pics-model`) avec ses réglages en tags, et reçoit l'alias `champion`.
    Résultat dans `reports/registry.json`.
+7. `drift` : analyse de dérive semaine par semaine sur la période de production, avec un
+   statut (STABLE / ATTENTION / DERIVE) et une décision. Résultat dans `reports/drift.md`.
+   Méthode et seuils : `docs/derive.md`.
 
 ## API
 
@@ -125,6 +129,7 @@ src/demo_mauvais_modele.py  modèle volontairement mauvais pour la démo de refu
 src/register.py    étape register (registre MLflow)
 src/app.py         API FastAPI
 src/metrics.py     métriques Prometheus de l'API
+src/drift.py       étape drift (analyse de dérive)
 monitoring/        configuration Prometheus, règles d'alerte, Grafana
 examples/          requêtes d'exemple pour l'API
 scripts/           test de fumée, résumé pour la CI, simulation de trafic
@@ -134,7 +139,7 @@ docker-compose.yml serveur MLflow + API
 models/            modèle retenu et ses métadonnées (géré par DVC)
 tests/             tests pytest (+ tests/data/ : fichier invalide pour la démo)
 reports/           rapports générés (validation, statistiques)
-docs/              cadrage, dictionnaire, décisions, contrat d'API, déploiement, monitoring
+docs/              cadrage, dictionnaire, décisions, contrat d'API, déploiement, monitoring, dérive
 data/              données (gérées par DVC, pas dans git)
 ```
 
@@ -148,7 +153,7 @@ data/              données (gérées par DVC, pas dans git)
 - [x] Docker
 - [x] CI GitHub Actions
 - [x] Monitoring Prometheus / Grafana
-- [ ] Détection de dérive et alertes
+- [x] Détection de dérive et alertes
 - [ ] Feedback, réentraînement, promotion, rollback
 - [ ] Rapport final
 

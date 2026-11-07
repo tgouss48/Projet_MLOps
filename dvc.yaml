@@ -70,3 +70,19 @@ stages:
     outs:
       - reports/registry.json:
           cache: false
+
+  drift:
+    cmd: python src/drift.py
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - data/processed/production.csv
+      - models
+      - src/drift.py
+    params:
+      - drift
+    outs:
+      - reports/drift.json:
+          cache: false
+      - reports/drift.md:
+          cache: false
