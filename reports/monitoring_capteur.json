@@ -1,0 +1,23 @@
+{
+  "scenario": "capteur",
+  "date": "2026-10-30T22:45:38+00:00",
+  "requetes": 1301,
+  "codes_http": {
+    "200": 913,
+    "422": 388
+  },
+  "taux_alertes_modele": 0.103,
+  "metriques_prometheus": {
+    "latence_p95_s": 0.0244,
+    "taux_422_1m": 0.3007,
+    "taux_alertes_5m": 0.098,
+    "temperature_moyenne_5m": 20.1952
+  },
+  "alertes_prometheus": [
+    {
+      "alerte": "EntreesInvalides",
+      "etat": "firing",
+      "decision": "Regarder quel champ est refuse (api_invalid_inputs_total) : capteur en panne ou changement cote client. Prevenir l'equipe capteurs."
+    }
+  ]
+}

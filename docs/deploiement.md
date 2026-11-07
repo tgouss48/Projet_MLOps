@@ -2,12 +2,14 @@
 
 ## Ce qui tourne
 
-`docker compose up` lance deux conteneurs :
+`docker compose up` lance quatre conteneurs :
 
 | Service | Image | Port | Rôle |
 |---|---|---|---|
 | mlflow | ghcr.io/mlflow/mlflow:v2.19.0 | 5000 | suivi des expériences + registre de modèles + stockage des modèles |
 | api | tetouan-api:1.0 (notre Dockerfile) | 8000 | API de prédiction |
+| prometheus | prom/prometheus:v2.55.1 | 9090 | collecte des métriques et alertes |
+| grafana | grafana/grafana:11.3.0 | 3000 | tableau de bord |
 
 Les données de MLflow (base SQLite et modèles) sont dans le volume Docker `mlflow_data`, elles
 restent après un `docker compose down` (mais pas après `docker compose down -v`).

@@ -3,7 +3,7 @@ VENV   ?= .venv
 BIN     = $(VENV)/bin
 export PATH := $(abspath $(BIN)):$(PATH)
 
-.PHONY: all setup mlflow data pipeline up down logs smoke demo-rejet demo-gate-refus api demo-api lint test clean
+.PHONY: all setup mlflow data pipeline up down logs smoke simu-stable simu-capteur simu-ete demo-rejet demo-gate-refus api demo-api lint test clean
 
 # tout depuis zero : environnement, serveur MLflow, donnees, pipeline, API
 all: setup mlflow data pipeline up
@@ -31,6 +31,15 @@ up:
 
 smoke:
 	python scripts/smoke_test.py
+
+simu-stable:
+	python scripts/simulate_traffic.py stable --duree 150
+
+simu-capteur:
+	python scripts/simulate_traffic.py capteur --duree 150
+
+simu-ete:
+	python scripts/simulate_traffic.py ete --duree 140 --rps 40
 
 down:
 	docker compose down

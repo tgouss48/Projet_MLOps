@@ -1,0 +1,71 @@
+# Regles d'alerte. Chaque alerte a une decision associee (voir docs/monitoring.md).
+# Les durees sont courtes pour pouvoir les montrer en demo.
+groups:
+  - name: service
+    rules:
+      - alert: ApiIndisponible
+        expr: up{job="api"} == 0
+        for: 30s
+        labels:
+          severity: critique
+        annotations:
+          resume: "Prometheus n'arrive plus a joindre l'API"
+          decision: "Redemarrer le conteneur api, regarder make logs. Le dispatching repasse en surveillance manuelle."
+
+      - alert: ModeleNonCharge
+        expr: model_loaded == 0
+        for: 30s
+        labels:
+          severity: critique
+        annotations:
+          resume: "L'API tourne mais n'a pas de modele (registre MLflow injoignable ou alias absent)"
+          decision: "Verifier le serveur MLflow et l'alias champion, puis redemarrer l'API."
+
+      - alert: LatenceElevee
+        expr: histogram_quantile(0.95, sum by (le) (rate(api_request_duration_seconds_bucket{route="/predict"}[1m]))) > 0.2
+        for: 1m
+        labels:
+          severity: attention
+        annotations:
+          resume: "Latence p95 de /predict au dessus de 200 ms"
+          decision: "Regarder la charge de la machine et la taille des lots envoyes."
+
+      - alert: Erreurs5xx
+        expr: sum(rate(api_requests_total{status=~"5.."}[1m])) / sum(rate(api_requests_total[1m])) > 0.01
+        for: 1m
+        labels:
+          severity: critique
+        annotations:
+          resume: "Plus de 1 % de requetes en erreur serveur"
+          decision: "Lire les logs. Si le probleme vient d'une nouvelle version du modele : rollback."
+
+      - alert: EntreesInvalides
+        expr: >
+          sum(rate(api_requests_total{route=~"/predict.*", status="422"}[1m]))
+          / sum(rate(api_requests_total{route=~"/predict.*"}[1m])) > 0.05
+        for: 30s
+        labels:
+          severity: attention
+        annotations:
+          resume: "Plus de 5 % des requetes refusees par le contrat"
+          decision: "Regarder quel champ est refuse (api_invalid_inputs_total) : capteur en panne ou changement cote client. Prevenir l'equipe capteurs."
+
+  - name: modele
+    rules:
+      - alert: TauxAlertesAnormal
+        expr: sum(rate(predictions_total{alert="true"}[5m])) / sum(rate(predictions_total[5m])) > 0.30
+        for: 1m
+        labels:
+          severity: attention
+        annotations:
+          resume: "Plus de 30 % de predictions en alerte (10 % a l'entrainement, 12 % en mai)"
+          decision: "Soit la periode est vraiment plus chargee (ete), soit le modele derive. Lancer l'analyse de derive."
+
+      - alert: TemperatureHorsReference
+        expr: sum(rate(input_temperature_celsius_sum[5m])) / sum(rate(input_temperature_celsius_count[5m])) > 24
+        for: 1m
+        labels:
+          severity: attention
+        annotations:
+          resume: "Temperature moyenne recue au dessus de 24 °C (99e percentile du train : 24,4 °C)"
+          decision: "Le modele n'a jamais vu ces conditions. Lancer l'analyse de derive et preparer un reentrainement."

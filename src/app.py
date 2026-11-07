@@ -2,16 +2,22 @@
 # Lancer avec : uvicorn app:app --app-dir src --port 8000
 import json
 import os
+import time
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime
 
 import mlflow
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from mlflow import MlflowClient
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from pydantic import BaseModel, Field
+from starlette.responses import Response
 
+import metrics as m
 from features import add_derived
 
 TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
@@ -75,12 +81,40 @@ async def lifespan(app):
     # si le registre n'est pas joignable l'API demarre quand meme mais /health renvoie 503
     try:
         state.update(load_model())
+        m.MODELE_CHARGE.set(1)
+        m.MODELE_INFO.labels(version=state["version"], algo=state["algo"]).set(1)
     except Exception as e:
         print("impossible de charger le modele :", e)
+        m.MODELE_CHARGE.set(0)
     yield
 
 
 app = FastAPI(title="Alerte pics de consommation - Tetouan", version="1.0", lifespan=lifespan)
+
+
+@app.middleware("http")
+async def mesurer(request: Request, call_next):
+    # nombre de requetes, code retour et duree pour chaque route (sauf /metrics)
+    route = request.url.path
+    debut = time.perf_counter()
+    response = await call_next(request)
+    if route != "/metrics":
+        m.LATENCE.labels(route=route).observe(time.perf_counter() - debut)
+        m.REQUETES.labels(route=route, status=str(response.status_code)).inc()
+    return response
+
+
+@app.exception_handler(RequestValidationError)
+async def entree_invalide(request: Request, exc: RequestValidationError):
+    # on compte quel champ pose probleme, puis reponse 422 normale de FastAPI
+    for err in exc.errors():
+        m.ENTREES_INVALIDES.labels(champ=str(err["loc"][-1])).inc()
+    return await request_validation_exception_handler(request, exc)
+
+
+@app.get("/metrics")
+def metrics():
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 
 def predire(mesures):
@@ -90,6 +124,13 @@ def predire(mesures):
     df["datetime"] = pd.to_datetime(df["datetime"])
     X = add_derived(df)[state["features"]].astype(float)
     proba = state["model"].predict_proba(X)[:, 1]
+
+    for p, temp, conso in zip(proba, df["temperature"], df["total_kw"]):
+        m.PREDICTIONS.labels(alert=str(bool(p >= state["threshold"])).lower()).inc()
+        m.PROBA.observe(p)
+        m.TEMPERATURE.observe(temp)
+        m.CONSO.observe(conso)
+
     return [
         Prediction(
             prediction_id=str(uuid.uuid4()),

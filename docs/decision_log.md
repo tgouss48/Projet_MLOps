@@ -151,3 +151,25 @@ hash court du commit, pour relier une image à un état exact du code.
 Règles de base (erreurs, imports, longueur de ligne 120). Quelques lignes trop longues ont été
 coupées, ce qui a relancé le pipeline : le modèle est passé en version 2 dans le registre, avec
 exactement les mêmes performances.
+
+**D-026 : métriques de service et de modèle dans l'API**
+L'API expose `/metrics` (prometheus-client) : requêtes, latence, entrées refusées par champ,
+modèle chargé et sa version, prédictions avec ou sans alerte, probabilités, et deux entrées
+(température, consommation) pour suivre si les données reçues changent.
+Voir `src/metrics.py`, `tests/test_api.py`.
+
+**D-027 : seuils d'alerte**
+Latence p95 200 ms et 1 % d'erreurs : objectifs de service du cadrage. 5 % d'entrées
+invalides : au delà ce n'est plus une erreur isolée. 30 % d'alertes du modèle : 2,5 fois le
+taux de mai (12 %). 24 °C de température moyenne : 99e percentile du train (24,4 °C).
+Chaque alerte a une décision écrite dans ses annotations.
+Voir `monitoring/alerts.yml`, `docs/monitoring.md`.
+
+**D-028 : le modèle se dégrade en silence en été**
+Le scénario été déclenche l'alerte température mais pas l'alerte sur le taux d'alertes. En
+recalculant les performances par mois, on voit que le rappel tombe à 0,33 en juillet et août
+alors que le taux d'alertes reste à 15 %. Le service a l'air en bonne santé, le modèle non.
+Les métriques de service ne suffisent pas : il faut surveiller la dérive des entrées et
+comparer avec la réalité (feedback). On garde l'alerte TauxAlertesAnormal (elle détecterait un
+modèle qui alerte tout le temps) mais on sait qu'elle ne détecte pas ce cas.
+Voir `docs/monitoring.md`, `reports/monitoring_ete.json`.

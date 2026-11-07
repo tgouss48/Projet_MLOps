@@ -119,3 +119,25 @@ def test_sans_modele_repond_503(client):
     finally:
         api.MODEL_ALIAS = "champion"
         api.state.update(sauvegarde)
+
+
+def compteur(texte, nom):
+    # somme des valeurs d'une metrique dans la sortie texte de /metrics
+    return sum(float(ligne.split()[-1]) for ligne in texte.splitlines() if ligne.startswith(nom))
+
+
+def test_metriques_exposees(client):
+    client.post("/predict", json=payload(mesures(1).iloc[0]))
+    texte = client.get("/metrics").text
+    for nom in ["api_requests_total", "api_request_duration_seconds", "predictions_total",
+                "peak_probability", "input_temperature_celsius", "model_loaded"]:
+        assert nom in texte
+
+
+def test_entree_invalide_comptee(client):
+    avant = compteur(client.get("/metrics").text, 'api_invalid_inputs_total{champ="humidity"}')
+    d = payload(mesures(1).iloc[0])
+    d["humidity"] = 150
+    assert client.post("/predict", json=d).status_code == 422
+    apres = compteur(client.get("/metrics").text, 'api_invalid_inputs_total{champ="humidity"}')
+    assert apres == avant + 1

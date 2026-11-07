@@ -1,0 +1,22 @@
+{
+  "scenario": "ete",
+  "date": "2026-10-30T22:51:38+00:00",
+  "requetes": 3745,
+  "codes_http": {
+    "200": 3745
+  },
+  "taux_alertes_modele": 0.1546,
+  "metriques_prometheus": {
+    "latence_p95_s": 0.0233,
+    "taux_422_1m": 0.0,
+    "taux_alertes_5m": 0.1566,
+    "temperature_moyenne_5m": 27.411
+  },
+  "alertes_prometheus": [
+    {
+      "alerte": "TemperatureHorsReference",
+      "etat": "firing",
+      "decision": "Le modele n'a jamais vu ces conditions. Lancer l'analyse de derive et preparer un reentrainement."
+    }
+  ]
+}

@@ -40,6 +40,9 @@ Autres commandes :
 make down         # arrête les conteneurs
 make logs         # logs de l'API
 make smoke        # test de fumée de l'API déployée
+make simu-stable  # trafic normal (mai) vers l'API
+make simu-capteur # trafic avec 30 % de capteurs en panne
+make simu-ete     # trafic de juillet (dérive)
 make lint         # vérification du code (ruff)
 make test         # lance les tests
 make demo-rejet   # exemple de données invalides refusées par la validation
@@ -82,6 +85,13 @@ contraintes, sortie) est décrit dans `docs/api.md`.
 `Dockerfile` (python slim, utilisateur non root, healthcheck). Détails et stratégie de mise en
 production : `docs/deploiement.md`.
 
+## Monitoring
+
+`make up` lance aussi Prometheus (http://localhost:9090) et Grafana (http://localhost:3000).
+L'API expose des métriques de service et de modèle sur `/metrics`, Prometheus applique des
+règles d'alerte (`monitoring/alerts.yml`) et Grafana affiche un tableau de bord. Les scénarios
+stable / dégradés et leurs résultats sont dans `docs/monitoring.md`.
+
 ## Intégration continue
 
 `.github/workflows/ci.yml` tourne à chaque push et pull request :
@@ -114,15 +124,17 @@ src/quality_gate.py   étape gate
 src/demo_mauvais_modele.py  modèle volontairement mauvais pour la démo de refus
 src/register.py    étape register (registre MLflow)
 src/app.py         API FastAPI
+src/metrics.py     métriques Prometheus de l'API
+monitoring/        configuration Prometheus, règles d'alerte, Grafana
 examples/          requêtes d'exemple pour l'API
-scripts/           test de fumée de l'API et résumé pour la CI
+scripts/           test de fumée, résumé pour la CI, simulation de trafic
 .github/workflows/ CI GitHub Actions
 Dockerfile         image de l'API
 docker-compose.yml serveur MLflow + API
 models/            modèle retenu et ses métadonnées (géré par DVC)
 tests/             tests pytest (+ tests/data/ : fichier invalide pour la démo)
 reports/           rapports générés (validation, statistiques)
-docs/              cadrage, dictionnaire, décisions, contrat d'API, déploiement
+docs/              cadrage, dictionnaire, décisions, contrat d'API, déploiement, monitoring
 data/              données (gérées par DVC, pas dans git)
 ```
 
@@ -135,7 +147,7 @@ data/              données (gérées par DVC, pas dans git)
 - [x] API FastAPI et registre de modèles
 - [x] Docker
 - [x] CI GitHub Actions
-- [ ] Monitoring Prometheus / Grafana
+- [x] Monitoring Prometheus / Grafana
 - [ ] Détection de dérive et alertes
 - [ ] Feedback, réentraînement, promotion, rollback
 - [ ] Rapport final

@@ -1,0 +1,16 @@
+{
+  "scenario": "stable",
+  "date": "2026-10-30T22:42:46+00:00",
+  "requetes": 1237,
+  "codes_http": {
+    "200": 1237
+  },
+  "taux_alertes_modele": 0.0946,
+  "metriques_prometheus": {
+    "latence_p95_s": 0.0338,
+    "taux_422_1m": null,
+    "taux_alertes_5m": 0.0948,
+    "temperature_moyenne_5m": 20.4459
+  },
+  "alertes_prometheus": []
+}

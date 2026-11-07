@@ -10,7 +10,7 @@ WORKDIR /app
 COPY requirements-docker.txt .
 RUN pip install -r requirements-docker.txt
 
-COPY src/app.py src/features.py src/schema.py ./
+COPY src/app.py src/features.py src/schema.py src/metrics.py ./
 
 # l'API ne tourne pas en root
 RUN useradd --create-home appuser
